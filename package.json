@@ -1,0 +1,28 @@
+{
+  "name": "sample",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "start": "node index.js",
+    "migrate": "cd ./app/identity; npx sequelize-cli db:migrate"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "@sendgrid/mail": "^7.4.2",
+    "bcrypt": "^5.0.1",
+    "body-parser": "^1.19.0",
+    "cors": "^2.8.5",
+    "dotenv": "^8.2.0",
+    "express": "^4.17.1",
+    "jest": "^26.6.3",
+    "jsonwebtoken": "^8.5.1",
+    "nodemailer": "^6.5.0",
+    "pg": "^8.5.1",
+    "pg-hstore": "^2.3.3",
+    "sequelize": "^6.5.0",
+    "sequelize-cli": "^6.2.0",
+    "twilio": "^3.57.0"
+  }
+}

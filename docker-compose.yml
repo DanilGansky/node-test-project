@@ -1,0 +1,12 @@
+version: '3'
+services:
+  node-sample-db:
+    container_name: node-sample-db
+    image: postgres:11-alpine
+    restart: always
+    environment:
+      - POSTGRES_DB=node_sample
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=postgres
+    ports:
+      - '5432:5432'

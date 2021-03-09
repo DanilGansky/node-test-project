@@ -1,0 +1,13 @@
+{
+    "development": {
+        "username": "postgres",
+        "password": "postgres",
+        "database": "node_sample",
+        "host": "localhost",
+        "dialect": "postgres",
+        "operatorsAliases": false,
+        "define": {
+            "timestamps": false
+        }
+    }
+}
