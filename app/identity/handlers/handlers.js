@@ -9,6 +9,15 @@ const register = async (req, resp) => {
     }
 };
 
+const login = async (req, resp) => {
+    try {
+        const result = await authService.login(req.body);
+        resp.status(200).json({ result: result });
+    } catch (e) {
+        resp.status(500).json({ error: e });
+    }
+};
+
 const sendActivationCode = async (req, resp) => {
     try {
         const { activationToken, phoneNumber } = req.body;
@@ -30,6 +39,7 @@ const activate = async (req, resp) => {
 
 module.exports = {
     register: register,
+    login: login,
     sendActivationCode: sendActivationCode,
     activate: activate,
 };

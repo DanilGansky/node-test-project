@@ -6,7 +6,7 @@ const smsService = require("./sms.service");
 const jwt = require("jsonwebtoken");
 const bcrypt = require("bcrypt");
 
-const register = async (credentials) => {
+const register = async credentials => {
     const { email, password } = credentials;
     if (!isValidCredentials(email, password)) {
         return Promise.reject(userExceptions.InvalidCredentials);
@@ -30,6 +30,29 @@ const register = async (credentials) => {
     return user;
 };
 
+const login = async credentials => {
+    const { email, password, phoneNumber } = credentials;
+    if (!isValidCredentials(email, password)) {
+        return Promise.reject(userExceptions.InvalidCredentials);
+    }
+    if (!isValidPhoneNumber(phoneNumber)) {
+        return Promise.reject(userExceptions.InvalidCredentials);
+    }
+
+    const user = await userRepository.findUserByEmail(email);
+    if (!user.isActive) {
+        return Promise.reject(userExceptions.UserNotActivated);
+    }
+
+    const passwordHash = bcrypt.hashSync(password, appConfig.SALT);
+    if (passwordHash !== user.password) {
+        return Promise.reject(userExceptions.InvalidCredentials);
+    }
+
+    const result = await smsService.sendSMS(phoneNumber, user.id);
+    return `message ${result.sid} is ${result.status}`;
+};
+
 const sendActivationCode = async (activationToken, phoneNumber) => {
     if (!isValidPhoneNumber(phoneNumber)) {
         return Promise.reject(userExceptions.InvalidPhoneNumber);
@@ -41,18 +64,24 @@ const sendActivationCode = async (activationToken, phoneNumber) => {
 };
 
 const activateUser = async activationCode => {
+    let user;
+
     try {
-        const user = await activationCodeRepository.findUserByCode(activationCode);
-
-        await userRepository.activateUser(user);
-        await activationCodeRepository.deleteActivationCode(activationCode);
-        await activationTokenRepository.deleteActivationTokenByUserID(user.id);
-
-        const token = jwt.sign({ email: user.email }, appConfig.SECRET);
-        return { email: user.email, token: token };
+        user = await activationCodeRepository.findUserByCode(activationCode);
     } catch (e) {
         return Promise.reject(activationCodeExceptions.InvalidActivationCode);
     }
+
+    try {
+        await userRepository.activateUser(user);
+        await activationCodeRepository.deleteActivationCode(activationCode);
+        await activationTokenRepository.deleteActivationTokenByUserID(user.id);
+    } catch (e) {
+        console.warn(e);
+    }
+
+    const token = jwt.sign({ email: user.email }, appConfig.SECRET);
+    return { email: user.email, token: token };
 };
 
 const isValidCredentials = (email, password) => {
@@ -76,4 +105,5 @@ module.exports = {
     register: register,
     sendActivationCode: sendActivationCode,
     authorize: activateUser,
+    login: login,
 };

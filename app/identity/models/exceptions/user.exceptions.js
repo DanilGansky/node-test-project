@@ -18,9 +18,15 @@ const InvalidPhoneNumber = {
     message: "invalid phone number",
 };
 
+const UserNotActivated = {
+    name: "UserNotActivated",
+    message: "user not activated",
+};
+
 module.exports = {
     UserNotFound: UserNotFound,
     InvalidCredentials: InvalidCredentials,
     UserAlreadyRegistered: UserAlreadyRegistered,
     InvalidPhoneNumber: InvalidPhoneNumber,
+    UserNotActivated: UserNotActivated,
 };
