@@ -20,38 +20,28 @@ const setDescription = async (description, userID) => {
 };
 
 const updateCharacter = async (data, userID) => {
-    const dataToUpdate = getDataToUpdate(data);
-    if (!dataToUpdate) {
-        return Promise.reject(characterExceptions.InvalidCharacter);
+    const character = await characterRepository.findByUserID(userID);
+    if (data.strength) {
+        character.strength = data.strength;
+    }
+    if (data.agility) {
+        character.agility = data.agility;
+    }
+    if (data.endurance) {
+        character.endurance = data.endurance;
+    }
+    if (data.intelligence) {
+        character.intelligence = data.intelligence;
     }
 
-    const character = await characterRepository.findByUserID(userID);
-    // todo: update stats
-    await characterRepository.update(dataToUpdate, character.id);
-    return await characterRepository.findByUserID(character.id);
+    character.updateStats();
+    await characterRepository.update(character.dataValues, character.id);
+    return await characterRepository.findByUserID(userID);
 };
 
 const getAvatarURL = filePath => {
     const dirs = filePath.split("/");
     return `http://${appConfig.HOST}:${appConfig.PORT}/media/${dirs[dirs.length-1]}`;
-};
-
-const getDataToUpdate = (data) => {
-    const {strength, agility, endurance, intelligence} = data;
-    const result = {};
-    if (strength) {
-        result.strength = strength;
-    }
-    if (agility) {
-        result.agility = agility;
-    }
-    if (endurance) {
-        result.endurance = endurance;
-    }
-    if (intelligence) {
-        result.intelligence = intelligence;
-    }
-    return data;
 };
 
 module.exports = {

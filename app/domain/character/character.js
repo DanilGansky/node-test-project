@@ -71,6 +71,15 @@ class Character extends Sequelize.Model {
         this.skills = this.belongsToMany(models.Skill, {through: "CharacterSkills"});
         this.items = this.belongsToMany(models.Item, {through: "CharacterItems"});
     }
+
+    updateStats() {
+        this.meleeDamage = Math.ceil(this.strength / 2);
+        this.rangedDamage = Math.ceil(this.agility / 2);
+        this.hp = Math.ceil(this.endurance / 2);
+        this.protection = Math.ceil(this.endurance / 5) * 5;
+        this.mp = Math.ceil(this.intelligence / 2);
+        this.damageFromMagic = Math.ceil(this.intelligence / 10) * 5;
+    }
 }
 
 module.exports = Character;
