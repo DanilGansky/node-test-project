@@ -5,7 +5,11 @@ const {characterController} = require("../controller");
 const router = express.Router();
 const upload = multer();
 
-router.put("/upload-description", characterController.setDescription);
+router.get("/me", characterController.findByID);
+
+router.put("/update", characterController.updateCharacter);
+
+router.put("/update-description", characterController.setDescription);
 
 router.put("/upload-avatar", upload.any(), characterController.uploadAvatar);
 

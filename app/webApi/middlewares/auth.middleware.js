@@ -21,7 +21,7 @@ const authMiddleware = async (req, resp, next) => {
         return;
     }
 
-    const accessToken = await accessTokenRepository.findByEmail(req.email);
+    const accessToken = await accessTokenRepository.findByToken(token);
     if (accessToken.isBlocked) {
         resp.status(401).json(BlockedToken);
         return;

@@ -6,6 +6,13 @@ const findByUserID = userID => {
     });
 };
 
+const findByToken = token => {
+    return db.AccessToken.findOne({
+        where: { token: token, },
+        include: db.User,
+    });
+};
+
 const findByEmail = email => {
     return db.AccessToken.findOne({
         include: {
@@ -33,6 +40,7 @@ const block = accessToken => {
 
 module.exports = {
     findByUserID: findByUserID,
+    findByToken: findByToken,
     create: create,
     block: block,
     findByEmail: findByEmail,
