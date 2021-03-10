@@ -1,9 +1,9 @@
 const db = require("../models");
-const { activationTokenExceptions } = require("../models/exceptions");
+const {activationTokenExceptions} = require("../models/exceptions");
 
 const findUserByToken = async token => {
     const activationToken = await db.ActivationToken.findOne({
-        where: { token: token },
+        where: {token: token},
         include: db.User,
     });
 
@@ -13,16 +13,16 @@ const findUserByToken = async token => {
     return activationToken.User;
 };
 
-const createActivationToken = async (token, userID) => {
+const create = async (token, userID) => {
     return db.ActivationToken.create({
         token: token,
         UserId: userID,
     });
 };
 
-const deleteActivationTokenByUserID = async userID => {
+const remove = async userID => {
     const id = await db.ActivationToken.destroy({
-        where: { UserId: userID },
+        where: {UserId: userID},
     });
 
     if (!id) {
@@ -33,6 +33,6 @@ const deleteActivationTokenByUserID = async userID => {
 
 module.exports = {
     findUserByToken: findUserByToken,
-    createActivationToken: createActivationToken,
-    deleteActivationTokenByUserID: deleteActivationTokenByUserID,
+    create: create,
+    remove: remove,
 };

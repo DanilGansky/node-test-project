@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Activation</title>
+</head>
+<body>
+    <h2>Activation</h2>
+    <form id="activation-form-1">
+        <label for="phone-number">
+            <span>Phone number</span>
+            <input type="text" id="phone-number">
+        </label>
+        <br>
+
+        <button id="send-activation-code" type="submit">Send activation code</button>
+    </form>
+
+    <form id="activation-form-2" style="display: none">
+        <label for="activation-code">
+            <span>Activation code</span>
+            <input type="text" id="activation-code">
+        </label>
+        <br>
+
+        <button id="activate" type="submit">Activate</button>
+    </form>
+
+    <script>
+        let activationToken;
+
+        window.addEventListener("load", () => {
+            try {
+                activationToken = getActivationToken();
+            } catch (e) {
+                window.location.href = "/identity/";
+            }
+        });
+
+        document.querySelector("#send-activation-code").addEventListener("click", (e) => {
+            e.preventDefault();
+
+            fetch("http://localhost:3000/identity/send-activation-code", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                },
+                body: JSON.stringify({
+                    activationToken: activationToken,
+                    phoneNumber: document.querySelector("#phone-number").value,
+                })
+            }).then(() => {
+                document.querySelector("#activation-form-1").style.display = "none";
+                document.querySelector("#activation-form-2").style.display = "block";
+            });
+        });
+
+        document.querySelector("#activate").addEventListener("click", (e) => {
+            e.preventDefault();
+
+            fetch("http://localhost:3000/identity/activate", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                },
+                body: JSON.stringify({
+                    activationCode: document.querySelector("#activation-code").value,
+                })
+            }).then(async resp => {
+                console.log(await resp.json());
+            });
+        });
+
+        function getActivationToken() {
+            const queryParams = window.location.href.split("?")[1];
+            const params = queryParams.split("=");
+            if (params[0] === "activationToken") {
+                const val = params[1];
+                if (val[val.length-1] === "/") {
+                    return val.slice(0, val.length-1);
+                }
+                return val;
+            }
+            throw "ActivationToken does not provided";
+        }
+    </script>
+</body>
+</html>

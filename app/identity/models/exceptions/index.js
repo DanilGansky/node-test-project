@@ -1,5 +1,5 @@
 module.exports = {
-    userExceptions: require("./user.exceptions"),
-    activationCodeExceptions: require("./activationCode.exceptions"),
-    activationTokenExceptions: require("./activationToken.exceptions"),
+    userExceptions: require("./user"),
+    activationCodeExceptions: require("./activationCode"),
+    activationTokenExceptions: require("./activationToken"),
 };

@@ -1,1 +1,4 @@
-module.exports = require("./routes");
+module.exports = {
+    api: require("./api"),
+    html: require("./public"),
+};

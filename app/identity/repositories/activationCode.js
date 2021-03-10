@@ -1,9 +1,9 @@
 const db = require("../models");
-const { activationCodeExceptions } = require("../models/exceptions");
+const {activationCodeExceptions} = require("../models/exceptions");
 
 const findUserByCode = async code => {
     const activationCode = await db.ActivationCode.findOne({
-        where: { code: code },
+        where: {code: code},
         include: db.User,
     });
 
@@ -13,16 +13,16 @@ const findUserByCode = async code => {
     return activationCode.User;
 };
 
-const createActivationCode = async (code, userID) => {
+const create = async (code, userID) => {
     return db.ActivationCode.create({
         code: code,
         UserId: userID,
     });
 };
 
-const deleteActivationCode = async code => {
+const remove = async code => {
     const id = await db.ActivationCode.destroy({
-        where: { code: code },
+        where: {code: code},
     });
 
     if (!id) {
@@ -33,6 +33,6 @@ const deleteActivationCode = async code => {
 
 module.exports = {
     findUserByCode: findUserByCode,
-    createActivationCode: createActivationCode,
-    deleteActivationCode: deleteActivationCode,
+    create: create,
+    remove: remove,
 };

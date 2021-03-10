@@ -1,19 +1,25 @@
-const { userExceptions, activationCodeExceptions } = require("../models/exceptions");
-const { userRepository, activationCodeRepository, activationTokenRepository } = require("../repositories");
-const { appConfig } = require("../../config");
+const {userExceptions, activationCodeExceptions} = require("../models/exceptions");
+const {
+    userRepository,
+    activationCodeRepository,
+    activationTokenRepository,
+    accessTokenRepository
+} = require("../repositories");
+
+const {appConfig} = require("../../config");
 const emailService = require("./email.service");
 const smsService = require("./sms.service");
 const jwt = require("jsonwebtoken");
 const bcrypt = require("bcrypt");
 
 const register = async credentials => {
-    const { email, password } = credentials;
+    const {email, password} = credentials;
     if (!isValidCredentials(email, password)) {
         return Promise.reject(userExceptions.InvalidCredentials);
     }
 
     try {
-        const userByEmail = await userRepository.findUserByEmail(email);
+        const userByEmail = await userRepository.findByEmail(email);
         if (userByEmail) {
             return Promise.reject(userExceptions.UserAlreadyRegistered);
         }
@@ -24,14 +30,14 @@ const register = async credentials => {
     }
 
     const passwordHash = bcrypt.hashSync(password, appConfig.SALT);
-    const user = await userRepository.createUser(email, passwordHash);
+    const user = await userRepository.create(email, passwordHash);
 
     await emailService.sendMail(email, user.id);
     return user;
 };
 
 const login = async credentials => {
-    const { email, password, phoneNumber } = credentials;
+    const {email, password, phoneNumber} = credentials;
     if (!isValidCredentials(email, password)) {
         return Promise.reject(userExceptions.InvalidCredentials);
     }
@@ -39,7 +45,7 @@ const login = async credentials => {
         return Promise.reject(userExceptions.InvalidCredentials);
     }
 
-    const user = await userRepository.findUserByEmail(email);
+    const user = await userRepository.findByEmail(email);
     if (!user.isActive) {
         return Promise.reject(userExceptions.UserNotActivated);
     }
@@ -72,16 +78,35 @@ const activateUser = async activationCode => {
         return Promise.reject(activationCodeExceptions.InvalidActivationCode);
     }
 
+    if (!user.isActive) {
+        await userRepository.activate(user);
+    }
+
     try {
-        await userRepository.activateUser(user);
-        await activationCodeRepository.deleteActivationCode(activationCode);
-        await activationTokenRepository.deleteActivationTokenByUserID(user.id);
+        await activationCodeRepository.remove(activationCode);
+        await activationTokenRepository.remove(user.id);
     } catch (e) {
         console.warn(e);
     }
 
-    const token = jwt.sign({ email: user.email }, appConfig.SECRET);
-    return { email: user.email, token: token };
+    const token = generateAccessToken(user.email);
+    await accessTokenRepository.create(token, user.id);
+    return {email: user.email, token: token};
+};
+
+const logout = async email => {
+    const user = await userRepository.findByEmail(email);
+
+    try {
+        const accessToken = await accessTokenRepository.findByUserID(user.id);
+        if (!accessToken.isBlocked) {
+            await accessTokenRepository.block(accessToken);
+        }
+    } catch (e) {
+        return Promise.reject(userExceptions.UserIsNotLoggedIn);
+    }
+
+    return email;
 };
 
 const isValidCredentials = (email, password) => {
@@ -101,9 +126,17 @@ const isValidPhoneNumber = phoneNumber => {
     return phoneNumber.match(/^[+]?[(]?[0-9]{3}[)]?[-\s.]?[0-9]{3}[-\s.]?[0-9]{4,6}$/im);
 };
 
+const generateAccessToken = email => {
+    return jwt.sign({
+        exp: Math.floor(Date.now() / 1000) + (60 * 60), // 1 hour
+        data: email,
+    }, appConfig.SECRET);
+};
+
 module.exports = {
     register: register,
     sendActivationCode: sendActivationCode,
-    authorize: activateUser,
+    activateUser: activateUser,
     login: login,
+    logout: logout,
 };

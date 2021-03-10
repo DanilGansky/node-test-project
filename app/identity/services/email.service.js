@@ -1,11 +1,13 @@
 const sender = require("nodemailer");
 const bcrypt = require("bcrypt");
-const { activationTokenRepository } = require("../repositories");
-const { emailSenderConfig, appConfig } = require("../../config");
+const {activationTokenRepository} = require("../repositories");
+const {emailSenderConfig, appConfig} = require("../../config");
 
 const sendMail = async (to, userID) => {
-    const hashedEmail = hashEmail(to);
-    await activationTokenRepository.createActivationToken(hashedEmail, userID);
+    const token = generateActivationToken(to);
+    await activationTokenRepository.create(token, userID);
+
+    const activationURL = generateActivationURL(token);
     const transporter = sender.createTransport({
         host: "smtp.mailtrap.io",
         port: 2525,
@@ -19,12 +21,16 @@ const sendMail = async (to, userID) => {
         to: to,
         from: emailSenderConfig.SENDER,
         subject: "Account confirmation",
-        text: `Confirm your account: ${hashedEmail}`,
+        text: `Confirm your account: ${activationURL}`,
     });
 };
 
-const hashEmail = email => {
+const generateActivationToken = email => {
     return bcrypt.hashSync(email, appConfig.SALT);
+};
+
+const generateActivationURL = token => {
+    return `${appConfig.HOST}:${appConfig.PORT}/identity/activate?activationToken=${token}/`;
 };
 
 module.exports = {

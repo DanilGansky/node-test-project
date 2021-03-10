@@ -23,10 +23,16 @@ const UserNotActivated = {
     message: "user not activated",
 };
 
+const UserIsNotLoggedIn = {
+    name: "UserIsNotLoggedIn",
+    message: "user is not logged in",
+};
+
 module.exports = {
     UserNotFound: UserNotFound,
     InvalidCredentials: InvalidCredentials,
     UserAlreadyRegistered: UserAlreadyRegistered,
     InvalidPhoneNumber: InvalidPhoneNumber,
     UserNotActivated: UserNotActivated,
+    UserIsNotLoggedIn: UserIsNotLoggedIn,
 };
