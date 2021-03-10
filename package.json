@@ -5,7 +5,8 @@
   "main": "index.js",
   "scripts": {
     "start": "node index.js",
-    "migrate": "cd ./app; npx sequelize-cli db:migrate"
+    "migrate": "cd ./app; npx sequelize-cli db:migrate",
+    "seeders": "cd ./app; npx sequelize-cli db:seed:all"
   },
   "author": "",
   "license": "ISC",
