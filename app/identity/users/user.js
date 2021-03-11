@@ -1,7 +1,5 @@
 const Sequelize = require("sequelize");
 
-// todo: isAdmin
-// todo: lastLogin
 class User extends Sequelize.Model {
   static init(sequelize, DataTypes) {
     return super.init(
@@ -20,7 +18,17 @@ class User extends Sequelize.Model {
           allowNull: false,
           defaultValue: Sequelize.NOW,
         },
+        lastLogin: {
+          type: DataTypes.DATE,
+          allowNull: false,
+          defaultValue: Sequelize.NOW,
+        },
         isActive: {
+          type: DataTypes.BOOLEAN,
+          allowNull: false,
+          defaultValue: false,
+        },
+        isAdmin: {
           type: DataTypes.BOOLEAN,
           allowNull: false,
           defaultValue: false,

@@ -4,10 +4,10 @@ const express = require("express");
 const bodyParser = require("body-parser");
 const cors = require("cors");
 const { identityAPI, publicAPI } = require("./app/identity");
-const { characterAPI } = require("./app/character");
+const { characterAPI, adminAPI } = require("./app/character");
 const fs = require("fs");
 const { appConfig } = require("./app/config");
-const { authMiddleware } = require("./app/middlewares");
+const { authMiddleware, isAdminMiddleware } = require("./app/middlewares");
 
 const app = express();
 const corsOptions = {
@@ -20,7 +20,9 @@ app.use(bodyParser.json());
 
 // Routers
 app.use("/identity", identityAPI, publicAPI);
+app.use("/admin", authMiddleware, isAdminMiddleware, adminAPI);
 app.use("/character", authMiddleware, characterAPI);
+
 app.use("/media", (req, resp) => {
   fs.readFile(__dirname + "/media/" + req.url, (err, text) => {
     if (err) {

@@ -10,10 +10,6 @@ const create = async (userID) =>
 const findByID = async (userID) =>
   await characterRepository.findByUserID(userID);
 
-const findAllSkills = async () => await skillRepository.findAll();
-
-const findAllItems = async () => await itemRepository.findAll();
-
 const uploadAvatar = async (data, filename, userID) => {
   const character = await characterRepository.findByUserID(userID);
   const filePath = await uploadService.upload(data, filename);
@@ -75,8 +71,6 @@ const getAvatarURL = (filePath) => {
 
 module.exports = {
   findByID,
-  findAllSkills,
-  findAllItems,
   create,
   uploadAvatar,
   setDescription,

@@ -9,24 +9,6 @@ const findByID = async (req, resp) => {
   }
 };
 
-const findAllSkills = async (req, resp) => {
-  try {
-    const skills = await characterService.findAllSkills();
-    resp.status(200).json({ skills: skills });
-  } catch (e) {
-    resp.status(500).json({ error: e });
-  }
-};
-
-const findAllItems = async (req, resp) => {
-  try {
-    const items = await characterService.findAllItems();
-    resp.status(200).json({ items: items });
-  } catch (e) {
-    resp.status(500).json({ error: e });
-  }
-};
-
 const uploadAvatar = async (req, resp) => {
   const files = req.files;
   const buffer = Buffer.from(Object.values(files[0].buffer));
@@ -92,8 +74,6 @@ const setItems = async (req, resp) => {
 
 module.exports = {
   findByID,
-  findAllSkills,
-  findAllItems,
   setSkills,
   setItems,
   uploadAvatar,

@@ -1,6 +1,63 @@
 const characterExceptions = require("./characterExceptions");
 const db = require("./db");
 
+const findAll = async () =>
+  await db.Character.findAll({
+    include: [
+      {
+        model: db.Skill,
+        include: {
+          model: db.Parameter,
+          through: { attributes: [] },
+        },
+        through: { attributes: [] },
+      },
+      {
+        model: db.Item,
+        include: {
+          model: db.Parameter,
+          through: { attributes: [] },
+        },
+        through: { attributes: [] },
+      },
+      {
+        model: db.User,
+      },
+    ],
+  });
+
+const findByID = async (id) => {
+  const character = await db.Character.findOne({
+    where: { id: id },
+    include: [
+      {
+        model: db.Skill,
+        include: {
+          model: db.Parameter,
+          through: { attributes: [] },
+        },
+        through: { attributes: [] },
+      },
+      {
+        model: db.Item,
+        include: {
+          model: db.Parameter,
+          through: { attributes: [] },
+        },
+        through: { attributes: [] },
+      },
+      {
+        model: db.User,
+      },
+    ],
+  });
+
+  if (!character) {
+    return Promise.reject(characterExceptions.CharacterNotFound);
+  }
+  return character;
+};
+
 const findByUserID = async (userID) => {
   const character = await db.Character.findOne({
     where: { UserId: userID },
@@ -20,6 +77,9 @@ const findByUserID = async (userID) => {
           through: { attributes: [] },
         },
         through: { attributes: [] },
+      },
+      {
+        model: db.User,
       },
     ],
   });
@@ -41,7 +101,9 @@ const update = (data, id) => {
 };
 
 module.exports = {
-  findByUserID: findByUserID,
-  create: create,
-  update: update,
+  findAll,
+  findByUserID,
+  findByID,
+  create,
+  update,
 };

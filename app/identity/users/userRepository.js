@@ -32,9 +32,21 @@ const activate = async (user) => {
   );
 };
 
+const updateLastLoginDate = async (user) => {
+  return await db.User.update(
+    {
+      lastLogin: new Date(),
+    },
+    {
+      where: { id: user.id },
+    }
+  );
+};
+
 module.exports = {
-  findAll: findAll,
-  findByEmail: findByEmail,
-  create: create,
-  activate: activate,
+  findAll,
+  findByEmail,
+  create,
+  activate,
+  updateLastLoginDate,
 };

@@ -7,10 +7,6 @@ const upload = multer();
 
 router.get("/me", characterController.findByID);
 
-router.get("/skills", characterController.findAllSkills);
-
-router.get("/items", characterController.findAllItems);
-
 router.put("/update", characterController.update);
 
 router.put("/update-description", characterController.setDescription);

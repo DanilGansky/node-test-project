@@ -4,4 +4,5 @@ eventConsumer.startReceiving();
 
 module.exports = {
   characterAPI: require("./characterAPI"),
+  adminAPI: require("./admin/adminAPI"),
 };

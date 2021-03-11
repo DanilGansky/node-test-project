@@ -56,6 +56,7 @@ const login = async (credentials) => {
     return Promise.reject(userExceptions.InvalidCredentials);
   }
 
+  await userRepository.updateLastLoginDate(user);
   const result = await smsService.sendSMS(phoneNumber, user.id);
   return `message ${result.sid} is ${result.status}`;
 };
