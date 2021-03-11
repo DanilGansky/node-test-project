@@ -1,6 +1,6 @@
 module.exports = {
-    emailSenderConfig: require("./email.sender.config"),
-    smsSenderConfig: require("./sms.sender.config"),
-    dbConfig: require("./db.config"),
-    appConfig: require("./app.config"),
+    emailSenderConfig: require("./emailSenderConfig"),
+    smsSenderConfig: require("./smsSenderConfig"),
+    dbConfig: require("./dbConfig"),
+    appConfig: require("./appConfig"),
 };
