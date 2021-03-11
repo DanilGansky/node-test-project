@@ -10,21 +10,17 @@ const findAll = async () =>
   });
 
 const findByIDs = async (ids) =>
-  await db.Skill.findAll(
-    {
-      where: {
-        id: {
-          [Op.in]: ids,
-        },
+  await db.Skill.findAll({
+    where: {
+      id: {
+        [Op.in]: ids,
       },
     },
-    {
-      include: {
-        model: db.Parameter,
-        through: { attributes: [] },
-      },
-    }
-  );
+    include: {
+      model: db.Parameter,
+      through: { attributes: [] },
+    },
+  });
 
 module.exports = {
   findAll,

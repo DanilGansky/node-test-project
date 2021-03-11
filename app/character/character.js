@@ -89,6 +89,24 @@ class Character extends Sequelize.Model {
     this.mp = Math.floor(this.intelligence / 2);
     this.damageFromMagic = Math.floor(this.intelligence / 10) * 5;
   }
+
+  appendSkills(skills) {
+    skills.forEach((skill) => {
+      if (!this.includesSkill(skill)) {
+        skill.Parameters.forEach((param) => (this[param.name] += param.value));
+        this.addSkill(skill);
+      }
+    });
+  }
+
+  includesSkill(skill) {
+    for (let s of this.Skills) {
+      if (s.name === skill.name) {
+        return true;
+      }
+    }
+    return false;
+  }
 }
 
 module.exports = Character;

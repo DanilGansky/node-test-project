@@ -49,7 +49,8 @@ const setSkills = async (skillIDs, userID) => {
   const skills = await skillRepository.findByIDs(skillIDs);
   const character = await characterRepository.findByUserID(userID);
 
-  await character.addSkills(skills);
+  await character.appendSkills(skills);
+  await characterRepository.update(character.dataValues, character.id);
   return await characterRepository.findByUserID(userID);
 };
 
