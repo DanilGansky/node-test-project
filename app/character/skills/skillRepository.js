@@ -1,6 +1,7 @@
-const db = require("./db");
+const db = require("../db");
 const { Op } = require("sequelize");
 
+// todo: creating, updating, deleting
 const findAll = async () =>
   await db.Skill.findAll({
     include: {

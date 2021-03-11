@@ -81,27 +81,48 @@ class Character extends Sequelize.Model {
     });
   }
 
-  updateStats() {
-    this.meleeDamage = Math.floor(this.strength / 2);
-    this.rangedDamage = Math.floor(this.agility / 2);
-    this.hp = Math.floor(this.endurance / 2);
-    this.protection = Math.floor(this.endurance / 5) * 5;
-    this.mp = Math.floor(this.intelligence / 2);
-    this.damageFromMagic = Math.floor(this.intelligence / 10) * 5;
+  updateStats({ skills, items }) {
+    this._appendSkills(skills);
+    this._appendItems(items);
+
+    // this.meleeDamage += Math.floor(this.strength / 2);
+    // this.rangedDamage += Math.floor(this.agility / 2);
+    // this.hp += Math.floor(this.endurance / 2);
+    // this.protection += Math.floor(this.endurance / 5) * 5;
+    // this.mp += Math.floor(this.intelligence / 2);
+    // this.damageFromMagic += Math.floor(this.intelligence / 10) * 5;
   }
 
-  appendSkills(skills) {
+  _appendSkills(skills) {
     skills.forEach((skill) => {
-      if (!this.includesSkill(skill)) {
+      if (!this._includesSkill(skill)) {
         skill.Parameters.forEach((param) => (this[param.name] += param.value));
         this.addSkill(skill);
       }
     });
   }
 
-  includesSkill(skill) {
+  _appendItems(items) {
+    items.forEach((item) => {
+      if (!this._includesItem(item)) {
+        item.Parameters.forEach((param) => (this[param.name] += param.value));
+        this.addItem(item);
+      }
+    });
+  }
+
+  _includesSkill(skill) {
     for (let s of this.Skills) {
       if (s.name === skill.name) {
+        return true;
+      }
+    }
+    return false;
+  }
+
+  _includesItem(item) {
+    for (let s of this.Items) {
+      if (s.name === item.name) {
         return true;
       }
     }

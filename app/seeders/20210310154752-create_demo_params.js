@@ -26,6 +26,11 @@ module.exports = {
         name: "agility",
         value: -5,
       },
+      {
+        id: 6,
+        name: "rangedDamage",
+        value: 50,
+      },
     ]);
   },
 

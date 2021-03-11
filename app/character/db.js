@@ -1,7 +1,7 @@
 const Sequelize = require("sequelize");
 const Character = require("./character");
-const Item = require("./item");
-const Skill = require("./skill");
+const Item = require("./items/item");
+const Skill = require("./skills/skill");
 const Parameter = require("./parameter");
 const { dbConfig } = require("../config");
 const identityModels = require("../identity/db");

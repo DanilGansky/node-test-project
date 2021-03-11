@@ -7,10 +7,18 @@ const findByUserID = async (userID) => {
     include: [
       {
         model: db.Skill,
+        include: {
+          model: db.Parameter,
+          through: { attributes: [] },
+        },
         through: { attributes: [] },
       },
       {
         model: db.Item,
+        include: {
+          model: db.Parameter,
+          through: { attributes: [] },
+        },
         through: { attributes: [] },
       },
     ],

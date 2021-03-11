@@ -1,5 +1,7 @@
 const Sequelize = require("sequelize");
 
+// todo: isAdmin
+// todo: lastLogin
 class User extends Sequelize.Model {
   static init(sequelize, DataTypes) {
     return super.init(

@@ -1,5 +1,6 @@
 const characterRepository = require("./characterRepository");
-const skillRepository = require("./skillRepository");
+const skillRepository = require("./skills/skillRepository");
+const itemRepository = require("./items/itemRepository");
 const { uploadService } = require("../uploading");
 const { appConfig } = require("../config");
 
@@ -10,6 +11,8 @@ const findByID = async (userID) =>
   await characterRepository.findByUserID(userID);
 
 const findAllSkills = async () => await skillRepository.findAll();
+
+const findAllItems = async () => await itemRepository.findAll();
 
 const uploadAvatar = async (data, filename, userID) => {
   const character = await characterRepository.findByUserID(userID);
@@ -40,7 +43,7 @@ const update = async (data, userID) => {
     character.intelligence = data.intelligence;
   }
 
-  character.updateStats();
+  character.updateStats({ skills: character.Skills, items: character.Items });
   await characterRepository.update(character.dataValues, character.id);
   return await characterRepository.findByUserID(userID);
 };
@@ -49,7 +52,16 @@ const setSkills = async (skillIDs, userID) => {
   const skills = await skillRepository.findByIDs(skillIDs);
   const character = await characterRepository.findByUserID(userID);
 
-  await character.appendSkills(skills);
+  await character.updateStats({ skills: skills, items: character.Items });
+  await characterRepository.update(character.dataValues, character.id);
+  return await characterRepository.findByUserID(userID);
+};
+
+const setItems = async (itemIDs, userID) => {
+  const items = await itemRepository.findByIDs(itemIDs);
+  const character = await characterRepository.findByUserID(userID);
+
+  await character.updateStats({ items: items, skills: character.Skills });
   await characterRepository.update(character.dataValues, character.id);
   return await characterRepository.findByUserID(userID);
 };
@@ -62,11 +74,13 @@ const getAvatarURL = (filePath) => {
 };
 
 module.exports = {
-  findByID: findByID,
-  findAllSkills: findAllSkills,
-  create: create,
-  uploadAvatar: uploadAvatar,
-  setDescription: setDescription,
-  update: update,
-  setSkills: setSkills,
+  findByID,
+  findAllSkills,
+  findAllItems,
+  create,
+  uploadAvatar,
+  setDescription,
+  update,
+  setSkills,
+  setItems,
 };
