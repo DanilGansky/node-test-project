@@ -74,8 +74,13 @@ const update = async (skill, params) => {
     return Promise.reject(SkillNotFound);
   }
 
+  await db.Parameter.destroy({
+    where: {
+      id: await skill.getParameters().then((params) => params.map((p) => p.id)),
+    },
+  });
+
   const parameters = await db.Parameter.bulkCreate(params);
-  await skill.removeParameters();
   await skill.setParameters(parameters);
   return id;
 };

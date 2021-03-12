@@ -74,8 +74,13 @@ const update = async (item, params) => {
     return Promise.reject(ItemNotFound);
   }
 
+  await db.Parameter.destroy({
+    where: {
+      id: await item.getParameters().then((params) => params.map((p) => p.id)),
+    },
+  });
+
   const parameters = await db.Parameter.bulkCreate(params);
-  await item.removeParameters();
   await item.setParameters(parameters);
   return id;
 };
