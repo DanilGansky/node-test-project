@@ -1,0 +1,704 @@
+{
+	"info": {
+		"_postman_id": "3eb71869-cca6-4a0b-b242-eff702150c2e",
+		"name": "Node sample",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Identity",
+			"item": [
+				{
+					"name": "Register",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"email\": \"guest@mail.com\",\n    \"password\": \"12345678\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{addr}}/identity/register",
+							"host": [
+								"{{addr}}"
+							],
+							"path": [
+								"identity",
+								"register"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Send activation code",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"activationToken\": \"<activation token from email>\",\n    \"phoneNumber\": \"<phone number. e.g. +380123658878>\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{addr}}/identity/send-activation-code",
+							"host": [
+								"{{addr}}"
+							],
+							"path": [
+								"identity",
+								"send-activation-code"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Activate",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"activationCode\": \"<your activation code from SMS>\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{addr}}/identity/activate",
+							"host": [
+								"{{addr}}"
+							],
+							"path": [
+								"identity",
+								"activate"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Login",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"email\": \"guest@mail.com\",\n    \"password\": \"12345678\",\n    \"phoneNumber\": \"<your phone number>\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{addr}}/identity/login",
+							"host": [
+								"{{addr}}"
+							],
+							"path": [
+								"identity",
+								"login"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Admin login",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"email\": \"admin@mail.com\",\n    \"password\": \"12345678\",\n    \"phoneNumber\": \"<your phone number>\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{addr}}/identity/login",
+							"host": [
+								"{{addr}}"
+							],
+							"path": [
+								"identity",
+								"login"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Logout",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"email\": \"guest@mail.com\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{addr}}/identity/logout",
+							"host": [
+								"{{addr}}"
+							],
+							"path": [
+								"identity",
+								"logout"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Character",
+			"item": [
+				{
+					"name": "User",
+					"item": [
+						{
+							"name": "Me",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE2MTU1NDk5MjcsImRhdGEiOiJndWVzdEBtYWlsLmNvbSIsImlhdCI6MTYxNTU0NjMyN30._tePp7lYI4ZEs4WxVcETQ7YS3le0wPdVwod9X4gRXOs",
+											"type": "string"
+										}
+									]
+								},
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{addr}}/character/me",
+									"host": [
+										"{{addr}}"
+									],
+									"path": [
+										"character",
+										"me"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Update description",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE2MTU1NDk5MjcsImRhdGEiOiJndWVzdEBtYWlsLmNvbSIsImlhdCI6MTYxNTU0NjMyN30._tePp7lYI4ZEs4WxVcETQ7YS3le0wPdVwod9X4gRXOs",
+											"type": "string"
+										}
+									]
+								},
+								"method": "PUT",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"description\": \"Nice character\"\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{addr}}/character/update-description",
+									"host": [
+										"{{addr}}"
+									],
+									"path": [
+										"character",
+										"update-description"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Upload avatar",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE2MTU1NDk5MjcsImRhdGEiOiJndWVzdEBtYWlsLmNvbSIsImlhdCI6MTYxNTU0NjMyN30._tePp7lYI4ZEs4WxVcETQ7YS3le0wPdVwod9X4gRXOs",
+											"type": "string"
+										}
+									]
+								},
+								"method": "PUT",
+								"header": [],
+								"body": {
+									"mode": "formdata",
+									"formdata": [
+										{
+											"key": "f",
+											"type": "file",
+											"src": "/home/dev/Dev/node-sample/media/test.jpg"
+										}
+									],
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{addr}}/character/upload-avatar",
+									"host": [
+										"{{addr}}"
+									],
+									"path": [
+										"character",
+										"upload-avatar"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Set skills",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE2MTU1NDk5MjcsImRhdGEiOiJndWVzdEBtYWlsLmNvbSIsImlhdCI6MTYxNTU0NjMyN30._tePp7lYI4ZEs4WxVcETQ7YS3le0wPdVwod9X4gRXOs",
+											"type": "string"
+										}
+									]
+								},
+								"method": "PUT",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"skillIDs\": [7]\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{addr}}/character/set-skills",
+									"host": [
+										"{{addr}}"
+									],
+									"path": [
+										"character",
+										"set-skills"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Set items",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE2MTU1NDk5MjcsImRhdGEiOiJndWVzdEBtYWlsLmNvbSIsImlhdCI6MTYxNTU0NjMyN30._tePp7lYI4ZEs4WxVcETQ7YS3le0wPdVwod9X4gRXOs",
+											"type": "string"
+										}
+									]
+								},
+								"method": "PUT",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"itemIDs\": [1]\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{addr}}/character/set-items",
+									"host": [
+										"{{addr}}"
+									],
+									"path": [
+										"character",
+										"set-items"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "Admin",
+					"item": [
+						{
+							"name": "Skills",
+							"item": [
+								{
+									"name": "Get all skills",
+									"request": {
+										"auth": {
+											"type": "bearer",
+											"bearer": [
+												{
+													"key": "token",
+													"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE2MTU1NTA0MDAsImRhdGEiOiJhZG1pbkBtYWlsLmNvbSIsImlhdCI6MTYxNTU0NjgwMH0.gnH18SZrWQh7aZq2xCum7ro8W5x2Fh5bJtPv_Zx_vf8",
+													"type": "string"
+												}
+											]
+										},
+										"method": "GET",
+										"header": [],
+										"url": {
+											"raw": "{{addr}}/admin/skills",
+											"host": [
+												"{{addr}}"
+											],
+											"path": [
+												"admin",
+												"skills"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "Create skill",
+									"request": {
+										"auth": {
+											"type": "bearer",
+											"bearer": [
+												{
+													"key": "token",
+													"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE2MTU1NTA0MDAsImRhdGEiOiJhZG1pbkBtYWlsLmNvbSIsImlhdCI6MTYxNTU0NjgwMH0.gnH18SZrWQh7aZq2xCum7ro8W5x2Fh5bJtPv_Zx_vf8",
+													"type": "string"
+												}
+											]
+										},
+										"method": "POST",
+										"header": [],
+										"body": {
+											"mode": "raw",
+											"raw": "{\n    \"name\": \"Super skill\",\n    \"params\": [{\n        \"name\": \"strength\",\n        \"value\": 10\n    }, {\n        \"name\": \"intelligence\",\n        \"value\": -20\n    }]\n}",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{addr}}/admin/skills",
+											"host": [
+												"{{addr}}"
+											],
+											"path": [
+												"admin",
+												"skills"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "Update skill",
+									"request": {
+										"auth": {
+											"type": "bearer",
+											"bearer": [
+												{
+													"key": "token",
+													"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE2MTU1NTA0MDAsImRhdGEiOiJhZG1pbkBtYWlsLmNvbSIsImlhdCI6MTYxNTU0NjgwMH0.gnH18SZrWQh7aZq2xCum7ro8W5x2Fh5bJtPv_Zx_vf8",
+													"type": "string"
+												}
+											]
+										},
+										"method": "PUT",
+										"header": [],
+										"body": {
+											"mode": "raw",
+											"raw": "{\n    \"name\": \"Super Skill\",\n    \"params\": [{\n        \"name\": \"strength\",\n        \"value\": 15\n    }]\n}",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{addr}}/admin/skills/6",
+											"host": [
+												"{{addr}}"
+											],
+											"path": [
+												"admin",
+												"skills",
+												"6"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "Delete skill",
+									"request": {
+										"auth": {
+											"type": "bearer",
+											"bearer": [
+												{
+													"key": "token",
+													"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE2MTU1NTA0MDAsImRhdGEiOiJhZG1pbkBtYWlsLmNvbSIsImlhdCI6MTYxNTU0NjgwMH0.gnH18SZrWQh7aZq2xCum7ro8W5x2Fh5bJtPv_Zx_vf8",
+													"type": "string"
+												}
+											]
+										},
+										"method": "DELETE",
+										"header": [],
+										"url": {
+											"raw": "{{addr}}/admin/skills/6",
+											"host": [
+												"{{addr}}"
+											],
+											"path": [
+												"admin",
+												"skills",
+												"6"
+											]
+										}
+									},
+									"response": []
+								}
+							]
+						},
+						{
+							"name": "Items",
+							"item": [
+								{
+									"name": "Get all items",
+									"request": {
+										"auth": {
+											"type": "bearer",
+											"bearer": [
+												{
+													"key": "token",
+													"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE2MTU1NTA0MDAsImRhdGEiOiJhZG1pbkBtYWlsLmNvbSIsImlhdCI6MTYxNTU0NjgwMH0.gnH18SZrWQh7aZq2xCum7ro8W5x2Fh5bJtPv_Zx_vf8",
+													"type": "string"
+												}
+											]
+										},
+										"method": "GET",
+										"header": [],
+										"url": {
+											"raw": "{{addr}}/admin/items",
+											"host": [
+												"{{addr}}"
+											],
+											"path": [
+												"admin",
+												"items"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "Create item",
+									"request": {
+										"auth": {
+											"type": "bearer",
+											"bearer": [
+												{
+													"key": "token",
+													"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE2MTU1NTA0MDAsImRhdGEiOiJhZG1pbkBtYWlsLmNvbSIsImlhdCI6MTYxNTU0NjgwMH0.gnH18SZrWQh7aZq2xCum7ro8W5x2Fh5bJtPv_Zx_vf8",
+													"type": "string"
+												}
+											]
+										},
+										"method": "POST",
+										"header": [],
+										"body": {
+											"mode": "raw",
+											"raw": "{\n    \"name\": \"Advanced bow\",\n    \"icon\": \"https://assets.leevalley.com/Size4/10026/05N5520-asymmetric-drawing-bow-f-37.jpg\",\n    \"params\": [{\n        \"name\": \"rangeDamage\",\n        \"value\": 100\n    }, {\n        \"name\": \"protection\",\n        \"value\": -20\n    }]\n}",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{addr}}/admin/items",
+											"host": [
+												"{{addr}}"
+											],
+											"path": [
+												"admin",
+												"items"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "Update item",
+									"request": {
+										"auth": {
+											"type": "bearer",
+											"bearer": [
+												{
+													"key": "token",
+													"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE2MTU1NTA0MDAsImRhdGEiOiJhZG1pbkBtYWlsLmNvbSIsImlhdCI6MTYxNTU0NjgwMH0.gnH18SZrWQh7aZq2xCum7ro8W5x2Fh5bJtPv_Zx_vf8",
+													"type": "string"
+												}
+											]
+										},
+										"method": "PUT",
+										"header": [],
+										"body": {
+											"mode": "raw",
+											"raw": "{\n    \"name\": \"Advanced Bow\",\n    \"icon\": \"https://assets.leevalley.com/Size4/10026/05N5520-asymmetric-drawing-bow-f-37.jpg\",\n    \"params\": [{\n        \"name\": \"rangeDamage\",\n        \"value\": 90\n    }, {\n        \"name\": \"protection\",\n        \"value\": -5\n    }]\n}",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{addr}}/admin/items/3",
+											"host": [
+												"{{addr}}"
+											],
+											"path": [
+												"admin",
+												"items",
+												"3"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "Delete item",
+									"request": {
+										"auth": {
+											"type": "bearer",
+											"bearer": [
+												{
+													"key": "token",
+													"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE2MTU1NTA0MDAsImRhdGEiOiJhZG1pbkBtYWlsLmNvbSIsImlhdCI6MTYxNTU0NjgwMH0.gnH18SZrWQh7aZq2xCum7ro8W5x2Fh5bJtPv_Zx_vf8",
+													"type": "string"
+												}
+											]
+										},
+										"method": "DELETE",
+										"header": [],
+										"url": {
+											"raw": "{{addr}}/admin/items/3",
+											"host": [
+												"{{addr}}"
+											],
+											"path": [
+												"admin",
+												"items",
+												"3"
+											]
+										}
+									},
+									"response": []
+								}
+							]
+						},
+						{
+							"name": "Get all characters",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE2MTU1NTA0MDAsImRhdGEiOiJhZG1pbkBtYWlsLmNvbSIsImlhdCI6MTYxNTU0NjgwMH0.gnH18SZrWQh7aZq2xCum7ro8W5x2Fh5bJtPv_Zx_vf8",
+											"type": "string"
+										}
+									]
+								},
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{addr}}/admin/characters",
+									"host": [
+										"{{addr}}"
+									],
+									"path": [
+										"admin",
+										"characters"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Get character",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE2MTU1NTA0MDAsImRhdGEiOiJhZG1pbkBtYWlsLmNvbSIsImlhdCI6MTYxNTU0NjgwMH0.gnH18SZrWQh7aZq2xCum7ro8W5x2Fh5bJtPv_Zx_vf8",
+											"type": "string"
+										}
+									]
+								},
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{addr}}/admin/characters/2",
+									"host": [
+										"{{addr}}"
+									],
+									"path": [
+										"admin",
+										"characters",
+										"2"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				}
+			]
+		}
+	]
+}
