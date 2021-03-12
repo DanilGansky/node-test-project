@@ -113,7 +113,7 @@ class Character extends Sequelize.Model {
 
   _includesSkill(skill) {
     for (let s of this.Skills) {
-      if (s.name === skill.name) {
+      if (s.id === skill.id) {
         return true;
       }
     }
@@ -122,7 +122,7 @@ class Character extends Sequelize.Model {
 
   _includesItem(item) {
     for (let s of this.Items) {
-      if (s.name === item.name) {
+      if (s.id === item.id) {
         return true;
       }
     }

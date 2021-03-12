@@ -4,7 +4,13 @@ const express = require("express");
 const bodyParser = require("body-parser");
 const cors = require("cors");
 const { identityAPI, publicAPI } = require("./app/identity");
-const { characterAPI, adminAPI } = require("./app/character");
+const {
+  characterAPI,
+  adminCharacterAPI,
+  adminSkillAPI,
+  adminItemAPI,
+} = require("./app/character");
+
 const fs = require("fs");
 const { appConfig } = require("./app/config");
 const { authMiddleware, isAdminMiddleware } = require("./app/middlewares");
@@ -20,7 +26,15 @@ app.use(bodyParser.json());
 
 // Routers
 app.use("/identity", identityAPI, publicAPI);
-app.use("/admin", authMiddleware, isAdminMiddleware, adminAPI);
+app.use(
+  "/admin",
+  authMiddleware,
+  isAdminMiddleware,
+  adminCharacterAPI,
+  adminSkillAPI,
+  adminItemAPI
+);
+
 app.use("/character", authMiddleware, characterAPI);
 
 app.use("/media", (req, resp) => {

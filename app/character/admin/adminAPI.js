@@ -7,8 +7,4 @@ router.get("/characters", adminController.findAll);
 
 router.get("/characters/:id", adminController.findByID);
 
-router.get("/skills", adminController.findAllSkills);
-
-router.get("/items", adminController.findAllItems);
-
 module.exports = router;

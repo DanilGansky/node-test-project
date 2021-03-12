@@ -26,9 +26,11 @@ class Item extends Sequelize.Model {
       through: "CharacterItems",
       timestamps: false,
     });
+
     this.params = this.belongsToMany(models.Parameter, {
       through: "ItemParams",
       timestamps: false,
+      onDelete: "cascade",
     });
   }
 }

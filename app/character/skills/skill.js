@@ -22,9 +22,11 @@ class Skill extends Sequelize.Model {
       through: "CharacterSkills",
       timestamps: false,
     });
+
     this.params = this.belongsToMany(models.Parameter, {
       through: "SkillParams",
       timestamps: false,
+      onDelete: "cascade",
     });
   }
 }

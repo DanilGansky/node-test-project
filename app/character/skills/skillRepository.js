@@ -10,6 +10,21 @@ const findAll = async () =>
     },
   });
 
+const findByID = async (id) => {
+  const skill = await db.Skill.findOne({
+    where: { id: id },
+    include: {
+      model: db.Parameter,
+      through: { attributes: [] },
+    },
+  });
+
+  if (!skill) {
+    return Promise.reject(SkillNotFound);
+  }
+  return skill;
+};
+
 const findByIDs = async (ids) =>
   await db.Skill.findAll({
     where: {
@@ -24,15 +39,19 @@ const findByIDs = async (ids) =>
   });
 
 const create = async (name, params) => {
-  await db.Skill.create(
+  const skill = await db.Skill.create(
+    { name: name },
     {
-      name: name,
-      Parameters: params,
-    },
-    {
-      include: db.Parameter,
+      include: {
+        model: db.Parameter,
+        through: { attributes: [] },
+      },
     }
   );
+
+  const parameters = await db.Parameter.bulkCreate(params);
+  await skill.setParameters(parameters);
+  return skill;
 };
 
 const update = async (skill, params) => {
@@ -42,6 +61,12 @@ const update = async (skill, params) => {
       where: {
         id: skill.id,
       },
+    },
+    {
+      include: {
+        model: db.Parameter,
+        through: { attributes: [] },
+      },
     }
   );
 
@@ -49,7 +74,9 @@ const update = async (skill, params) => {
     return Promise.reject(SkillNotFound);
   }
 
-  await skill.setParameters(params);
+  const parameters = await db.Parameter.bulkCreate(params);
+  await skill.removeParameters();
+  await skill.setParameters(parameters);
   return id;
 };
 
@@ -63,6 +90,7 @@ const remove = async (skillID) => {
 
 module.exports = {
   findAll,
+  findByID,
   findByIDs,
   create,
   update,

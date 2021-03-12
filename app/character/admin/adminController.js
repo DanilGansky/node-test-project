@@ -18,27 +18,7 @@ const findByID = async (req, resp) => {
   }
 };
 
-const findAllSkills = async (req, resp) => {
-  try {
-    const skills = await adminService.findAllSkills();
-    resp.status(200).json({ skills: skills });
-  } catch (e) {
-    resp.status(500).json({ error: e });
-  }
-};
-
-const findAllItems = async (req, resp) => {
-  try {
-    const items = await adminService.findAllItems();
-    resp.status(200).json({ items: items });
-  } catch (e) {
-    resp.status(500).json({ error: e });
-  }
-};
-
 module.exports = {
   findAll,
   findByID,
-  findAllSkills,
-  findAllItems,
 };
