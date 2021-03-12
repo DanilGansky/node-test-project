@@ -45,6 +45,7 @@ const update = async (data, userID) => {
     character.intelligence += data.intelligence;
   }
 
+  character.calcStats();
   await characterRepository.update(character.dataValues, character.id);
   return await characterRepository.findByUserID(userID);
 };
@@ -54,6 +55,8 @@ const setSkills = async (skillIDs, userID) => {
   const character = await characterRepository.findByUserID(userID);
 
   await character.updateStats({ skills: skills, items: character.Items });
+  character.calcStats();
+
   await characterRepository.update(character.dataValues, character.id);
   return await characterRepository.findByUserID(userID);
 };
@@ -63,6 +66,8 @@ const setItems = async (itemIDs, userID) => {
   const character = await characterRepository.findByUserID(userID);
 
   await character.updateStats({ items: items, skills: character.Skills });
+  character.calcStats();
+
   await characterRepository.update(character.dataValues, character.id);
   return await characterRepository.findByUserID(userID);
 };

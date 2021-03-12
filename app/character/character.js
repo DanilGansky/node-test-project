@@ -96,13 +96,6 @@ class Character extends Sequelize.Model {
     if (items) {
       await this._updateStatsFromAmmunition(items);
     }
-
-    // this.meleeDamage += Math.floor(this.strength / 2);
-    // this.rangedDamage += Math.floor(this.agility / 2);
-    // this.hp += Math.floor(this.endurance / 2);
-    // this.protection += Math.floor(this.endurance / 5) * 5;
-    // this.mp += Math.floor(this.intelligence / 2);
-    // this.damageFromMagic += Math.floor(this.intelligence / 10) * 5;
   }
 
   async _updateStatsFromAmmunition(ammunition) {
@@ -112,6 +105,15 @@ class Character extends Sequelize.Model {
         this[p.name] += p.value;
       }
     }
+  }
+
+  calcStats() {
+    this.meleeDamage += Math.floor(this.strength / 2);
+    this.rangedDamage += Math.floor(this.agility / 2);
+    this.hp += Math.floor(this.endurance / 2);
+    this.protection += Math.floor(this.endurance / 5) * 5;
+    this.mp += Math.floor(this.intelligence / 2);
+    this.damageFromMagic += Math.floor(this.intelligence / 10) * 5;
   }
 
   clearStats() {
