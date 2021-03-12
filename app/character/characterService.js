@@ -27,20 +27,24 @@ const setDescription = async (description, userID) => {
 
 const update = async (data, userID) => {
   const character = await characterRepository.findByUserID(userID);
+  await character.updateStats({
+    skills: character.Skills,
+    items: character.Items,
+  });
+
   if (data.strength) {
-    character.strength = data.strength;
+    character.strength += data.strength;
   }
   if (data.agility) {
-    character.agility = data.agility;
+    character.agility += data.agility;
   }
   if (data.endurance) {
-    character.endurance = data.endurance;
+    character.endurance += data.endurance;
   }
   if (data.intelligence) {
-    character.intelligence = data.intelligence;
+    character.intelligence += data.intelligence;
   }
 
-  character.updateStats({ skills: character.Skills, items: character.Items });
   await characterRepository.update(character.dataValues, character.id);
   return await characterRepository.findByUserID(userID);
 };

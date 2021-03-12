@@ -82,12 +82,20 @@ class Character extends Sequelize.Model {
     });
   }
 
-  updateStats({ skills, items }) {
-    this.removeSkills(skills);
-    this.removeItems(items);
+  async updateStats({ skills, items }) {
+    this.clearStats();
+    await this.removeSkills();
+    await this.removeItems();
 
-    this.setSkills(skills);
-    this.setItems(items);
+    await this.setSkills(skills);
+    await this.setItems(items);
+
+    if (skills) {
+      await this._updateStatsFromAmmunition(skills);
+    }
+    if (items) {
+      await this._updateStatsFromAmmunition(items);
+    }
 
     // this.meleeDamage += Math.floor(this.strength / 2);
     // this.rangedDamage += Math.floor(this.agility / 2);
@@ -95,6 +103,28 @@ class Character extends Sequelize.Model {
     // this.protection += Math.floor(this.endurance / 5) * 5;
     // this.mp += Math.floor(this.intelligence / 2);
     // this.damageFromMagic += Math.floor(this.intelligence / 10) * 5;
+  }
+
+  async _updateStatsFromAmmunition(ammunition) {
+    for (let val of ammunition) {
+      const params = await val.getParameters();
+      for (let p of params) {
+        this[p.name] += p.value;
+      }
+    }
+  }
+
+  clearStats() {
+    this.strength = 0;
+    this.agility = 0;
+    this.endurance = 0;
+    this.intelligence = 0;
+    this.meleeDamage = 0;
+    this.rangedDamage = 0;
+    this.protection = 0;
+    this.damageFromMagic = 0;
+    this.hp = 0;
+    this.mp = 0;
   }
 }
 
