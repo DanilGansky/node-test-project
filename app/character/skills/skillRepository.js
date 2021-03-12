@@ -81,6 +81,13 @@ const update = async (skill, params) => {
 };
 
 const remove = async (skillID) => {
+  const skill = await findByID(skillID);
+  await db.Parameter.destroy({
+    where: {
+      id: await skill.getParameters().then((params) => params.map((p) => p.id)),
+    },
+  });
+
   const id = await db.Skill.destroy({ where: { id: skillID } });
   if (!id) {
     return Promise.reject(SkillNotFound);

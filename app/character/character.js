@@ -75,6 +75,7 @@ class Character extends Sequelize.Model {
       through: "CharacterSkills",
       timestamps: false,
     });
+
     this.items = this.belongsToMany(models.Item, {
       through: "CharacterItems",
       timestamps: false,
@@ -82,8 +83,11 @@ class Character extends Sequelize.Model {
   }
 
   updateStats({ skills, items }) {
-    this._appendSkills(skills);
-    this._appendItems(items);
+    this.removeSkills(skills);
+    this.removeItems(items);
+
+    this.setSkills(skills);
+    this.setItems(items);
 
     // this.meleeDamage += Math.floor(this.strength / 2);
     // this.rangedDamage += Math.floor(this.agility / 2);
@@ -91,42 +95,6 @@ class Character extends Sequelize.Model {
     // this.protection += Math.floor(this.endurance / 5) * 5;
     // this.mp += Math.floor(this.intelligence / 2);
     // this.damageFromMagic += Math.floor(this.intelligence / 10) * 5;
-  }
-
-  _appendSkills(skills) {
-    skills.forEach((skill) => {
-      if (!this._includesSkill(skill)) {
-        skill.Parameters.forEach((param) => (this[param.name] += param.value));
-        this.addSkill(skill);
-      }
-    });
-  }
-
-  _appendItems(items) {
-    items.forEach((item) => {
-      if (!this._includesItem(item)) {
-        item.Parameters.forEach((param) => (this[param.name] += param.value));
-        this.addItem(item);
-      }
-    });
-  }
-
-  _includesSkill(skill) {
-    for (let s of this.Skills) {
-      if (s.id === skill.id) {
-        return true;
-      }
-    }
-    return false;
-  }
-
-  _includesItem(item) {
-    for (let s of this.Items) {
-      if (s.id === item.id) {
-        return true;
-      }
-    }
-    return false;
   }
 }
 

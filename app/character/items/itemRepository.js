@@ -81,6 +81,13 @@ const update = async (item, params) => {
 };
 
 const remove = async (itemID) => {
+  const item = await findByID(itemID);
+  await db.Parameter.destroy({
+    where: {
+      id: await item.getParameters().then((params) => params.map((p) => p.id)),
+    },
+  });
+
   const id = await db.Item.destroy({ where: { id: itemID } });
   if (!id) {
     return Promise.reject(ItemNotFound);
