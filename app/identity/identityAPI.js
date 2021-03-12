@@ -14,6 +14,7 @@ let eventSenderService;
 let authService;
 
 let identityController;
+let logger;
 
 // todo: make mocks
 if (appConfig.TEST) {
@@ -25,6 +26,7 @@ if (appConfig.TEST) {
   emailService = require("./emailService")(activationTokenRepository);
   smsService = require("./smsService")(activationCodeRepository);
   eventSenderService = require("./eventSenderService");
+  logger = require("../logger");
   authService = require("./authService")(
     emailService,
     smsService,
@@ -35,7 +37,7 @@ if (appConfig.TEST) {
     activationCodeRepository
   );
 
-  identityController = require("./identityController")(authService);
+  identityController = require("./identityController")(authService, logger);
 }
 
 router.post("/register", identityController.register);
