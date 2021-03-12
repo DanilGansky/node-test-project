@@ -14,10 +14,12 @@ let controller;
 
 let uploader;
 let eventConsumer;
+let logger;
 
 // todo: make mocks
 if (appConfig.TEST) {
 } else {
+  logger = require("../logger");
   characterRepo = require("./characterRepository");
   skillRepo = require("./skills/skillRepository");
   itemRepo = require("./items/itemRepository");
@@ -29,7 +31,7 @@ if (appConfig.TEST) {
     uploader
   );
 
-  controller = require("./characterController")(service);
+  controller = require("./characterController")(service, logger);
   eventConsumer = require("./eventConsumer")(service);
 }
 

@@ -16,8 +16,10 @@ const loadHTML = (path, resp) => {
   fs.readFile(__dirname + path, "utf8", (err, text) => {
     if (err) {
       console.log(err);
+      resp.status(404).send("File not found");
+      return;
     }
-    resp.send(text);
+    resp.status(200).send(text);
   });
 };
 

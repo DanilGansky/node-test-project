@@ -6,13 +6,15 @@ const router = express.Router();
 let repository;
 let service;
 let controller;
+let logger;
 
 // todo: make mocks
 if (appConfig.TEST) {
 } else {
   repository = require("./skillRepository");
   service = require("./skillService")(repository);
-  controller = require("./skillController")(service);
+  logger = require("../../logger");
+  controller = require("./skillController")(service, logger);
 }
 
 router.get("/skills", controller.findAll);

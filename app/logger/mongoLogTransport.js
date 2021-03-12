@@ -11,7 +11,12 @@ class MongoLogTransport extends Transport {
       this.emit("logged", info);
     });
 
-    const entry = new MongoLog({ message: info.message, tags: info.tags });
+    const entry = new MongoLog({
+      message: info.message,
+      tags: info.tags,
+      status: info.status,
+    });
+
     entry.save();
     callback();
   }

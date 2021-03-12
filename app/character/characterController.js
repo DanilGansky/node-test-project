@@ -1,11 +1,14 @@
 let characterService;
+let logger;
 
 const findByID = async (req, resp) => {
   try {
     const character = await characterService.findByID(req.user.id);
     resp.status(200).json({ character: character });
   } catch (e) {
-    resp.status(404).json({ error: e });
+    const status = determineStatus(e);
+    logger.error({ status: status, message: e, tags: ["findByID"] });
+    resp.status(status).json({ error: e });
   }
 };
 
@@ -21,7 +24,9 @@ const uploadAvatar = async (req, resp) => {
     );
     resp.status(200).json({ outPath: outPath });
   } catch (e) {
-    resp.status(500).json({ error: e });
+    const status = determineStatus(e);
+    logger.error({ status: status, message: e, tags: ["uploadAvatar"] });
+    resp.status(status).json({ error: e });
   }
 };
 
@@ -36,7 +41,9 @@ const setDescription = async (req, resp) => {
 
     resp.status(200).json({ character: character });
   } catch (e) {
-    resp.status(500).json({ error: e });
+    const status = determineStatus(e);
+    logger.error({ status: status, message: e, tags: ["setDescription"] });
+    resp.status(status).json({ error: e });
   }
 };
 
@@ -45,7 +52,9 @@ const update = async (req, resp) => {
     const character = await characterService.update(req.body, req.user.id);
     resp.status(200).json({ character: character });
   } catch (e) {
-    resp.status(500).json({ error: e });
+    const status = determineStatus(e);
+    logger.error({ status: status, message: e, tags: ["update"] });
+    resp.status(status).json({ error: e });
   }
 };
 
@@ -57,7 +66,9 @@ const setSkills = async (req, resp) => {
     );
     resp.status(200).json({ character: character });
   } catch (e) {
-    resp.status(500).json({ error: e });
+    const status = determineStatus(e);
+    logger.error({ status: status, message: e, tags: ["setSkills"] });
+    resp.status(status).json({ error: e });
   }
 };
 
@@ -69,12 +80,26 @@ const setItems = async (req, resp) => {
     );
     resp.status(200).json({ character: character });
   } catch (e) {
-    resp.status(500).json({ error: e });
+    const status = determineStatus(e);
+    logger.error({ status: status, message: e, tags: ["setItems"] });
+    resp.status(status).json({ error: e });
   }
 };
 
-module.exports = (service) => {
+const determineStatus = (e) => {
+  switch (e.name) {
+    case "CharacterNotFound":
+      return 404;
+    case "InvalidCharacter":
+      return 400;
+    default:
+      return 500;
+  }
+};
+
+module.exports = (service, log) => {
   characterService = service;
+  logger = log;
 
   return {
     findByID,
