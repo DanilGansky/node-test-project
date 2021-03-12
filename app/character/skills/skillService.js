@@ -1,5 +1,6 @@
-const skillRepository = require("../skills/skillRepository");
 const { InvalidSkillData } = require("../skills/skillExceptions");
+
+let skillRepository;
 
 const findAll = async () => await skillRepository.findAll();
 
@@ -46,9 +47,13 @@ const isValidSkillData = (name, params) => {
   return true;
 };
 
-module.exports = {
-  findAll,
-  create,
-  update,
-  remove,
+module.exports = (repository) => {
+  skillRepository = repository;
+
+  return {
+    findAll,
+    create,
+    update,
+    remove,
+  };
 };

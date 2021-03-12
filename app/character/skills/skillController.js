@@ -1,4 +1,4 @@
-const skillService = require("./skillService");
+let skillService;
 
 const findAll = async (req, resp) => {
   try {
@@ -36,9 +36,13 @@ const remove = async (req, resp) => {
   }
 };
 
-module.exports = {
-  findAll,
-  create,
-  update,
-  remove,
+module.exports = (service) => {
+  skillService = service;
+
+  return {
+    findAll,
+    create,
+    update,
+    remove,
+  };
 };

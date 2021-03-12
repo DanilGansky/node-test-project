@@ -1,8 +1,9 @@
-const characterRepository = require("./characterRepository");
-const skillRepository = require("./skills/skillRepository");
-const itemRepository = require("./items/itemRepository");
-const { uploadService } = require("../uploading");
 const { appConfig } = require("../config");
+
+let characterRepository;
+let skillRepository;
+let itemRepository;
+let uploadService;
 
 const create = async (userID) =>
   await characterRepository.create({ UserId: userID });
@@ -21,7 +22,7 @@ const uploadAvatar = async (data, filename, userID) => {
 const setDescription = async (description, userID) => {
   const character = await characterRepository.findByUserID(userID);
   await characterRepository.update({ description: description }, character.id);
-  return await characterRepository.findByUserID(character.id);
+  return await characterRepository.findByID(character.id);
 };
 
 const update = async (data, userID) => {
@@ -69,12 +70,19 @@ const getAvatarURL = (filePath) => {
   }`;
 };
 
-module.exports = {
-  findByID,
-  create,
-  uploadAvatar,
-  setDescription,
-  update,
-  setSkills,
-  setItems,
+module.exports = (characterRepo, skillRepo, itemRepo, uploader) => {
+  characterRepository = characterRepo;
+  skillRepository = skillRepo;
+  itemRepository = itemRepo;
+  uploadService = uploader;
+
+  return {
+    findByID,
+    create,
+    uploadAvatar,
+    setDescription,
+    update,
+    setSkills,
+    setItems,
+  };
 };

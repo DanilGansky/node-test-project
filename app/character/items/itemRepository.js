@@ -1,6 +1,6 @@
-// todo: create, update, delete
 const db = require("../db");
 const { Op } = require("sequelize");
+const { ItemNotFound } = require("./itemExceptions");
 
 const findAll = async () =>
   await db.Item.findAll({
@@ -9,6 +9,21 @@ const findAll = async () =>
       through: { attributes: [] },
     },
   });
+
+const findByID = async (id) =>
+  await db.Item.findOne(
+    {
+      where: {
+        id: id,
+      },
+    },
+    {
+      include: {
+        model: db.Parameter,
+        through: { attributes: [] },
+      },
+    }
+  );
 
 const findByIDs = async (ids) =>
   await db.Item.findAll({
@@ -23,7 +38,61 @@ const findByIDs = async (ids) =>
     },
   });
 
+const create = async (name, icon, params) => {
+  const item = await db.Item.create(
+    { name: name, icon: icon },
+    {
+      include: {
+        model: db.Parameter,
+        through: { attributes: [] },
+      },
+    }
+  );
+
+  const parameters = await db.Parameter.bulkCreate(params);
+  await item.setParameters(parameters);
+  return item;
+};
+
+const update = async (item, params) => {
+  const id = await db.Item.update(
+    { name: item.name, icon: item.icon },
+    {
+      where: {
+        id: item.id,
+      },
+    },
+    {
+      include: {
+        model: db.Parameter,
+        through: { attributes: [] },
+      },
+    }
+  );
+
+  if (!id) {
+    return Promise.reject(ItemNotFound);
+  }
+
+  const parameters = await db.Parameter.bulkCreate(params);
+  await item.removeParameters();
+  await item.setParameters(parameters);
+  return id;
+};
+
+const remove = async (itemID) => {
+  const id = await db.Item.destroy({ where: { id: itemID } });
+  if (!id) {
+    return Promise.reject(ItemNotFound);
+  }
+  return id;
+};
+
 module.exports = {
   findAll,
+  findByID,
   findByIDs,
+  create,
+  update,
+  remove,
 };

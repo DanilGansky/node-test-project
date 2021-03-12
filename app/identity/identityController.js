@@ -1,4 +1,4 @@
-const authService = require("./authService");
+let authService;
 
 const register = async (req, resp) => {
   try {
@@ -50,10 +50,13 @@ const activate = async (req, resp) => {
   }
 };
 
-module.exports = {
-  register: register,
-  login: login,
-  logout: logout,
-  sendActivationCode: sendActivationCode,
-  activate: activate,
+module.exports = (service) => {
+  authService = service;
+  return {
+    register: register,
+    login: login,
+    logout: logout,
+    sendActivationCode: sendActivationCode,
+    activate: activate,
+  };
 };

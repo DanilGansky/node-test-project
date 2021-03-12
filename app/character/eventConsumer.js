@@ -1,6 +1,7 @@
 const amqp = require("amqplib/callback_api");
-const characterService = require("./characterService");
 const { appConfig } = require("../config");
+
+let characterService;
 
 const exchange = "messages";
 let channel;
@@ -59,6 +60,10 @@ const handlerEvents = async (event) => {
   }
 };
 
-module.exports = {
-  startReceiving,
+module.exports = (service) => {
+  characterService = service;
+
+  return {
+    startReceiving,
+  };
 };

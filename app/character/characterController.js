@@ -1,4 +1,4 @@
-const characterService = require("./characterService");
+let characterService;
 
 const findByID = async (req, resp) => {
   try {
@@ -33,6 +33,7 @@ const setDescription = async (req, resp) => {
       description,
       req.user.id
     );
+
     resp.status(200).json({ character: character });
   } catch (e) {
     resp.status(500).json({ error: e });
@@ -72,11 +73,15 @@ const setItems = async (req, resp) => {
   }
 };
 
-module.exports = {
-  findByID,
-  setSkills,
-  setItems,
-  uploadAvatar,
-  setDescription,
-  update,
+module.exports = (service) => {
+  characterService = service;
+
+  return {
+    findByID,
+    setSkills,
+    setItems,
+    uploadAvatar,
+    setDescription,
+    update,
+  };
 };

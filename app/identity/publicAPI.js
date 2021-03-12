@@ -1,12 +1,20 @@
 const express = require("express");
-const publicController = require("./publicController");
+const { appConfig } = require("../config");
+
+let controller;
+
+// todo: make mocks
+if (appConfig.TEST) {
+} else {
+  controller = require("./publicController");
+}
 
 const router = express.Router();
 
-router.get("/login", publicController.loginPage);
+router.get("/login", controller.loginPage);
 
-router.get("/register", publicController.registerPage);
+router.get("/register", controller.registerPage);
 
-router.get("/activate", publicController.activationPage);
+router.get("/activate", controller.activationPage);
 
 module.exports = router;

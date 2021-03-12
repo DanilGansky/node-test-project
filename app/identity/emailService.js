@@ -1,7 +1,8 @@
 const sender = require("nodemailer");
 const bcrypt = require("bcrypt");
-const activationTokenRepository = require("./activation/activationTokenRepository");
 const { emailSenderConfig, appConfig } = require("../config");
+
+let activationTokenRepository;
 
 const sendMail = async (to, userID) => {
   const token = generateActivationToken(to);
@@ -33,6 +34,9 @@ const generateActivationURL = (token) => {
   return `${appConfig.HOST}:${appConfig.PORT}/identity/activate?activationToken=${token}/`;
 };
 
-module.exports = {
-  sendMail: sendMail,
+module.exports = (repository) => {
+  activationTokenRepository = repository;
+  return {
+    sendMail: sendMail,
+  };
 };

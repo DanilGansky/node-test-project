@@ -1,14 +1,26 @@
 const express = require("express");
-const skillController = require("./skillController");
+const { appConfig } = require("../../config");
 
 const router = express.Router();
 
-router.get("/skills", skillController.findAll);
+let repository;
+let service;
+let controller;
 
-router.post("/skills", skillController.create);
+// todo: make mocks
+if (appConfig.TEST) {
+} else {
+  repository = require("./skillRepository");
+  service = require("./skillService")(repository);
+  controller = require("./skillController")(service);
+}
 
-router.put("/skills/:id", skillController.update);
+router.get("/skills", controller.findAll);
 
-router.delete("/skills/:id", skillController.remove);
+router.post("/skills", controller.create);
+
+router.put("/skills/:id", controller.update);
+
+router.delete("/skills/:id", controller.remove);
 
 module.exports = router;

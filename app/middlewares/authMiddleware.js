@@ -1,6 +1,7 @@
 const jwt = require("jsonwebtoken");
 const { appConfig } = require("../config");
-const accessTokenRepository = require("../identity/activation/accessTokenRepository");
+
+let accessTokenRepository;
 
 const AUTH_PREFIX = "Bearer ";
 
@@ -41,4 +42,7 @@ const BlockedToken = {
   message: "this token cannot be used for accessing",
 };
 
-module.exports = authMiddleware;
+module.exports = (repository) => {
+  accessTokenRepository = repository;
+  return authMiddleware;
+};

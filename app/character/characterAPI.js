@@ -1,20 +1,50 @@
 const express = require("express");
 const multer = require("multer");
-const characterController = require("./characterController");
+const { appConfig } = require("../config");
 
 const router = express.Router();
 const upload = multer();
 
-router.get("/me", characterController.findByID);
+let characterRepo;
+let skillRepo;
+let itemRepo;
 
-router.put("/update", characterController.update);
+let service;
+let controller;
 
-router.put("/update-description", characterController.setDescription);
+let uploader;
+let eventConsumer;
 
-router.put("/upload-avatar", upload.any(), characterController.uploadAvatar);
+// todo: make mocks
+if (appConfig.TEST) {
+} else {
+  characterRepo = require("./characterRepository");
+  skillRepo = require("./skills/skillRepository");
+  itemRepo = require("./items/itemRepository");
+  uploader = require("../uploading/uploadService");
+  service = require("./characterService")(
+    characterRepo,
+    skillRepo,
+    itemRepo,
+    uploader
+  );
 
-router.put("/set-skills", characterController.setSkills);
+  controller = require("./characterController")(service);
+  eventConsumer = require("./eventConsumer")(service);
+}
 
-router.put("/set-items", characterController.setItems);
+eventConsumer.startReceiving();
+
+router.get("/me", controller.findByID);
+
+router.put("/update", controller.update);
+
+router.put("/update-description", controller.setDescription);
+
+router.put("/upload-avatar", upload.any(), controller.uploadAvatar);
+
+router.put("/set-skills", controller.setSkills);
+
+router.put("/set-items", controller.setItems);
 
 module.exports = router;

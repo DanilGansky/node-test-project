@@ -1,16 +1,18 @@
 const { appConfig } = require("../config");
-const emailService = require("./emailService");
-const smsService = require("./smsService");
 const jwt = require("jsonwebtoken");
-const bcrypt = require("bcrypt");
-const userExceptions = require("./users/userExceptions");
-const userRepository = require("./users/userRepository");
-const eventSenderService = require("./eventSenderService");
 const identityEvents = require("./idenityEvents");
-const activationTokenRepository = require("./activation/activationTokenRepository");
-const accessTokenRepository = require("./activation/accessTokenRepository");
-const activationCodeRepository = require("./activation/activationCodeRepository");
+const bcrypt = require("bcrypt");
+
+const userExceptions = require("./users/userExceptions");
 const activationCodeExceptions = require("./activation/activationCodeExceptions");
+
+let emailService;
+let smsService;
+let eventSenderService;
+let userRepository;
+let activationTokenRepository;
+let accessTokenRepository;
+let activationCodeRepository;
 
 const register = async (credentials) => {
   const { email, password } = credentials;
@@ -140,10 +142,28 @@ const generateAccessToken = (email) => {
   );
 };
 
-module.exports = {
-  register: register,
-  sendActivationCode: sendActivationCode,
-  activateUser: activateUser,
-  login: login,
-  logout: logout,
+module.exports = (
+  emailSender,
+  smsSender,
+  userRepo,
+  eventSender,
+  activationTokenRepo,
+  accessTokenRepo,
+  activationCodeRepo
+) => {
+  emailService = emailSender;
+  smsService = smsSender;
+  userRepository = userRepo;
+  eventSenderService = eventSender;
+  activationTokenRepository = activationTokenRepo;
+  accessTokenRepository = accessTokenRepo;
+  activationCodeRepository = activationCodeRepo;
+
+  return {
+    register: register,
+    sendActivationCode: sendActivationCode,
+    activateUser: activateUser,
+    login: login,
+    logout: logout,
+  };
 };

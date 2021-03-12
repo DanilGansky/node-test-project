@@ -1,4 +1,4 @@
-const adminService = require("./adminService");
+let adminService;
 
 const findAll = async (req, resp) => {
   try {
@@ -18,7 +18,11 @@ const findByID = async (req, resp) => {
   }
 };
 
-module.exports = {
-  findAll,
-  findByID,
+module.exports = (service) => {
+  adminService = service;
+
+  return {
+    findAll,
+    findByID,
+  };
 };

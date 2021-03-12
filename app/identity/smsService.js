@@ -1,9 +1,10 @@
 const { smsSenderConfig } = require("../config");
-const activationCodeRepository = require("./activation/activationCodeRepository");
 const sender = require("twilio")(
   smsSenderConfig.TWILIO_ACCOUNT_SID,
   smsSenderConfig.TWILIO_AUTH_TOKEN
 );
+
+let activationCodeRepository;
 
 const sendSMS = async (to, userID) => {
   const code = generateActivationCode();
@@ -19,6 +20,9 @@ const generateActivationCode = () => {
   return Math.floor(Math.random() * (999999 - 100000) + 100000);
 };
 
-module.exports = {
-  sendSMS: sendSMS,
+module.exports = (repository) => {
+  activationCodeRepository = repository;
+  return {
+    sendSMS: sendSMS,
+  };
 };
