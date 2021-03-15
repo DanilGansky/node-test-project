@@ -36,6 +36,7 @@ const generateActivationURL = (token) => {
 
 module.exports = (repository) => {
   activationTokenRepository = repository;
+
   return {
     sendMail: sendMail,
   };

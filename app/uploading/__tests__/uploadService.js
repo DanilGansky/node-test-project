@@ -1,10 +1,10 @@
 const path = require("path");
 const fs = require("fs");
-const { upload } = require("./uploadService");
+const { upload } = require("../uploadService");
 
 test("upload", async () => {
   const filename = "test.jpg";
-  const readPath = path.join(__dirname, `../../../../media/${filename}`);
+  const readPath = path.join(__dirname, `../../../media/${filename}`);
   const stream = fs.createReadStream(readPath);
   stream.setEncoding("base64");
 

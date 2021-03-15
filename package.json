@@ -6,8 +6,7 @@
   "scripts": {
     "start": "node index.js",
     "migrate": "cd ./app; npx sequelize-cli db:migrate",
-    "seeders": "cd ./app; npx sequelize-cli db:seed:all",
-    "test": "export TEST=true; jest"
+    "seeders": "cd ./app; npx sequelize-cli db:seed:all"
   },
   "author": "",
   "license": "ISC",
@@ -33,5 +32,8 @@
     "twilio": "^3.57.0",
     "winston": "^3.3.3",
     "winston-transport": "^4.4.0"
+  },
+  "jest": {
+    "testEnvironment": "node"
   }
 }
