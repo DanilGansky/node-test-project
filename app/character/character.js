@@ -108,12 +108,20 @@ class Character extends Sequelize.Model {
   }
 
   calcStats() {
-    this.meleeDamage += Math.floor(this.strength / 2);
-    this.rangedDamage += Math.floor(this.agility / 2);
-    this.hp += Math.floor(this.endurance / 2);
-    this.protection += Math.floor(this.endurance / 5) * 5;
-    this.mp += Math.floor(this.intelligence / 2);
-    this.damageFromMagic += Math.floor(this.intelligence / 10) * 5;
+    if (this.strength > 0) {
+      this.meleeDamage += Math.floor(this.strength / 2);
+    }
+    if (this.agility > 0) {
+      this.rangedDamage += Math.floor(this.agility / 2);
+    }
+    if (this.endurance > 0) {
+      this.hp += Math.floor(this.endurance / 2);
+      this.protection += Math.floor(this.endurance / 5) * 5;
+    }
+    if (this.intelligence > 0) {
+      this.mp += Math.floor(this.intelligence / 2);
+      this.damageFromMagic += Math.floor(this.intelligence / 10) * 5;
+    }
   }
 
   clearStats() {
