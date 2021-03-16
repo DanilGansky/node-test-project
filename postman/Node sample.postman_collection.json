@@ -244,6 +244,43 @@
 							"response": []
 						},
 						{
+							"name": "Update stats",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE2MTU1NDk5MjcsImRhdGEiOiJndWVzdEBtYWlsLmNvbSIsImlhdCI6MTYxNTU0NjMyN30._tePp7lYI4ZEs4WxVcETQ7YS3le0wPdVwod9X4gRXOs",
+											"type": "string"
+										}
+									]
+								},
+								"method": "PUT",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"strength\": 30\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{addr}}/character/update",
+									"host": [
+										"{{addr}}"
+									],
+									"path": [
+										"character",
+										"update"
+									]
+								}
+							},
+							"response": []
+						},
+						{
 							"name": "Upload avatar",
 							"request": {
 								"auth": {
@@ -266,12 +303,7 @@
 											"type": "file",
 											"src": "/home/dev/Dev/node-sample/media/test.jpg"
 										}
-									],
-									"options": {
-										"raw": {
-											"language": "json"
-										}
-									}
+									]
 								},
 								"url": {
 									"raw": "{{addr}}/character/upload-avatar",
@@ -404,7 +436,7 @@
 											"bearer": [
 												{
 													"key": "token",
-													"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE2MTU1NTA0MDAsImRhdGEiOiJhZG1pbkBtYWlsLmNvbSIsImlhdCI6MTYxNTU0NjgwMH0.gnH18SZrWQh7aZq2xCum7ro8W5x2Fh5bJtPv_Zx_vf8",
+													"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE2MTU4OTEyMDMsImRhdGEiOiJhZG1pbkBtYWlsLmNvbSIsImlhdCI6MTYxNTg4NzYwM30.UwQ2tL9ZdOvqCzMMEkcMWwHh_DzUvVG8Q0xv8iQrays",
 													"type": "string"
 												}
 											]
@@ -413,7 +445,7 @@
 										"header": [],
 										"body": {
 											"mode": "raw",
-											"raw": "{\n    \"name\": \"Super skill\",\n    \"params\": [{\n        \"name\": \"strength\",\n        \"value\": 10\n    }, {\n        \"name\": \"intelligence\",\n        \"value\": -20\n    }]\n}",
+											"raw": "{\n    \"name\": \"Super skill\",\n    \"params\": [{\n        \"StatId\": 1,\n        \"value\": 10\n    }, {\n        \"StatId\": 2,\n        \"value\": -20\n    }]\n}",
 											"options": {
 												"raw": {
 													"language": "json"
@@ -441,7 +473,7 @@
 											"bearer": [
 												{
 													"key": "token",
-													"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE2MTU1NTA0MDAsImRhdGEiOiJhZG1pbkBtYWlsLmNvbSIsImlhdCI6MTYxNTU0NjgwMH0.gnH18SZrWQh7aZq2xCum7ro8W5x2Fh5bJtPv_Zx_vf8",
+													"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE2MTU4OTEyMDMsImRhdGEiOiJhZG1pbkBtYWlsLmNvbSIsImlhdCI6MTYxNTg4NzYwM30.UwQ2tL9ZdOvqCzMMEkcMWwHh_DzUvVG8Q0xv8iQrays",
 													"type": "string"
 												}
 											]
@@ -450,7 +482,7 @@
 										"header": [],
 										"body": {
 											"mode": "raw",
-											"raw": "{\n    \"name\": \"Super Skill\",\n    \"params\": [{\n        \"name\": \"strength\",\n        \"value\": 15\n    }]\n}",
+											"raw": "{\n    \"name\": \"Super Skill\",\n    \"params\": [{\n        \"StatId\": 10,\n        \"value\": 15\n    }]\n}",
 											"options": {
 												"raw": {
 													"language": "json"
@@ -458,14 +490,14 @@
 											}
 										},
 										"url": {
-											"raw": "{{addr}}/admin/skills/6",
+											"raw": "{{addr}}/admin/skills/14",
 											"host": [
 												"{{addr}}"
 											],
 											"path": [
 												"admin",
 												"skills",
-												"6"
+												"14"
 											]
 										}
 									},
@@ -541,7 +573,7 @@
 											"bearer": [
 												{
 													"key": "token",
-													"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE2MTU1NTA0MDAsImRhdGEiOiJhZG1pbkBtYWlsLmNvbSIsImlhdCI6MTYxNTU0NjgwMH0.gnH18SZrWQh7aZq2xCum7ro8W5x2Fh5bJtPv_Zx_vf8",
+													"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE2MTU4OTEyMDMsImRhdGEiOiJhZG1pbkBtYWlsLmNvbSIsImlhdCI6MTYxNTg4NzYwM30.UwQ2tL9ZdOvqCzMMEkcMWwHh_DzUvVG8Q0xv8iQrays",
 													"type": "string"
 												}
 											]
@@ -550,7 +582,7 @@
 										"header": [],
 										"body": {
 											"mode": "raw",
-											"raw": "{\n    \"name\": \"Advanced bow\",\n    \"icon\": \"https://assets.leevalley.com/Size4/10026/05N5520-asymmetric-drawing-bow-f-37.jpg\",\n    \"params\": [{\n        \"name\": \"rangeDamage\",\n        \"value\": 100\n    }, {\n        \"name\": \"protection\",\n        \"value\": -20\n    }]\n}",
+											"raw": "{\n    \"name\": \"Advanced bow\",\n    \"icon\": \"https://assets.leevalley.com/Size4/10026/05N5520-asymmetric-drawing-bow-f-37.jpg\",\n    \"params\": [{\n        \"StatId\": 1,\n        \"value\": 100\n    }, {\n        \"StatId\": 2,\n        \"value\": -20\n    }]\n}",
 											"options": {
 												"raw": {
 													"language": "json"
@@ -578,7 +610,7 @@
 											"bearer": [
 												{
 													"key": "token",
-													"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE2MTU1NTA0MDAsImRhdGEiOiJhZG1pbkBtYWlsLmNvbSIsImlhdCI6MTYxNTU0NjgwMH0.gnH18SZrWQh7aZq2xCum7ro8W5x2Fh5bJtPv_Zx_vf8",
+													"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE2MTU4OTEyMDMsImRhdGEiOiJhZG1pbkBtYWlsLmNvbSIsImlhdCI6MTYxNTg4NzYwM30.UwQ2tL9ZdOvqCzMMEkcMWwHh_DzUvVG8Q0xv8iQrays",
 													"type": "string"
 												}
 											]
@@ -587,7 +619,7 @@
 										"header": [],
 										"body": {
 											"mode": "raw",
-											"raw": "{\n    \"name\": \"Advanced Bow\",\n    \"icon\": \"https://assets.leevalley.com/Size4/10026/05N5520-asymmetric-drawing-bow-f-37.jpg\",\n    \"params\": [{\n        \"name\": \"rangeDamage\",\n        \"value\": 90\n    }, {\n        \"name\": \"protection\",\n        \"value\": -5\n    }]\n}",
+											"raw": "{\n    \"name\": \"Advanced Bow\",\n    \"icon\": \"https://assets.leevalley.com/Size4/10026/05N5520-asymmetric-drawing-bow-f-37.jpg\",\n    \"params\": [{\n        \"StatId\": 2,\n        \"value\": 90\n    }]\n}",
 											"options": {
 												"raw": {
 													"language": "json"
@@ -595,14 +627,14 @@
 											}
 										},
 										"url": {
-											"raw": "{{addr}}/admin/items/3",
+											"raw": "{{addr}}/admin/items/1",
 											"host": [
 												"{{addr}}"
 											],
 											"path": [
 												"admin",
 												"items",
-												"3"
+												"1"
 											]
 										}
 									},
