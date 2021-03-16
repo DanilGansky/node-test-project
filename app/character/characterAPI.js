@@ -8,6 +8,7 @@ const upload = multer();
 let characterRepo;
 let skillRepo;
 let itemRepo;
+let statRepo;
 
 let service;
 let controller;
@@ -23,12 +24,14 @@ if (appConfig.TEST) {
   characterRepo = require("./characterRepository");
   skillRepo = require("./skills/skillRepository");
   itemRepo = require("./items/itemRepository");
+  statRepo = require("./statRepository");
   uploader = require("../uploading/uploadService");
   service = require("./characterService")(
     characterRepo,
     skillRepo,
     itemRepo,
-    uploader
+    uploader,
+    statRepo
   );
 
   controller = require("./characterController")(service, logger);

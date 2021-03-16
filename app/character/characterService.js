@@ -4,12 +4,16 @@ let characterRepository;
 let skillRepository;
 let itemRepository;
 let uploadService;
+let statRepository;
 
 const create = async (userID) =>
   await characterRepository.create({ UserId: userID });
 
-const findByID = async (userID) =>
-  await characterRepository.findByUserID(userID);
+const findByID = async (userID) => {
+  const character = await characterRepository.findByUserID(userID);
+  const stats = await calcStats(character);
+  return { character, stats };
+};
 
 const uploadAvatar = async (data, filename, userID) => {
   const character = await characterRepository.findByUserID(userID);
@@ -69,11 +73,97 @@ const getAvatarURL = (filePath) => {
   }`;
 };
 
-module.exports = (characterRepo, skillRepo, itemRepo, uploader) => {
+const calcStats = async (character) => {
+  const totalStats = {};
+  if (character.Skills) {
+    await updateStatsFromAmmunition(character.Skills, totalStats);
+  }
+  if (character.Items) {
+    await updateStatsFromAmmunition(character.Items, totalStats);
+  }
+
+  for (let stat of character.Stats) {
+    switch (stat.name) {
+      case "strength":
+        if (stat.CharacterStats.value > 0) {
+          if (totalStats.hasOwnProperty("meleeDamage")) {
+            totalStats.meleeDamage += Math.floor(stat.CharacterStats.value / 2);
+          } else {
+            totalStats.meleeDamage = Math.floor(stat.CharacterStats.value / 2);
+          }
+        }
+        break;
+      case "agility":
+        if (stat.CharacterStats.value > 0) {
+          if (totalStats.hasOwnProperty("rangedDamage")) {
+            totalStats.rangedDamage += Math.floor(
+              stat.CharacterStats.value / 2
+            );
+          } else {
+            totalStats.rangedDamage = Math.floor(stat.CharacterStats.value / 2);
+          }
+        }
+        break;
+      case "endurance":
+        if (stat.CharacterStats.value > 0) {
+          if (totalStats.hasOwnProperty("hp")) {
+            totalStats.hp += Math.floor(stat.CharacterStats.value / 2);
+          } else {
+            totalStats.hp = Math.floor(stat.CharacterStats.value / 2);
+          }
+
+          if (totalStats.hasOwnProperty("protection")) {
+            totalStats.protection +=
+              Math.floor(stat.CharacterStats.value / 5) * 5;
+          } else {
+            totalStats.protection =
+              Math.floor(stat.CharacterStats.value / 5) * 5;
+          }
+        }
+        break;
+      case "intelligence":
+        if (stat.CharacterStats.value > 0) {
+          if (totalStats.hasOwnProperty("mp")) {
+            totalStats.mp += Math.floor(stat.CharacterStats.value / 2);
+          } else {
+            totalStats.mp = Math.floor(stat.CharacterStats.value / 2);
+          }
+
+          if (totalStats.hasOwnProperty("damageFromMagic")) {
+            totalStats.damageFromMagic +=
+              Math.floor(stat.CharacterStats.value / 10) * 5;
+          } else {
+            totalStats.damageFromMagic =
+              Math.floor(stat.CharacterStats.value / 10) * 5;
+          }
+        }
+        break;
+    }
+  }
+
+  return totalStats;
+};
+
+const updateStatsFromAmmunition = async (ammunition, stats) => {
+  for (let val of ammunition) {
+    const params = await val.getParameters();
+    for (let p of params) {
+      const stat = await statRepository.findByID(p.StatId);
+      if (stats[stat.name]) {
+        stats[stat.name] += p.value;
+      } else {
+        stats[stat.name] = p.value;
+      }
+    }
+  }
+};
+
+module.exports = (characterRepo, skillRepo, itemRepo, uploader, statRepo) => {
   characterRepository = characterRepo;
   skillRepository = skillRepo;
   itemRepository = itemRepo;
   uploadService = uploader;
+  statRepository = statRepo;
 
   return {
     findByID,
