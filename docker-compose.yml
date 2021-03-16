@@ -1,7 +1,7 @@
 version: '3'
 services:
-  node-sample-db:
-    container_name: node-sample-db
+  node-db:
+    container_name: node-db
     image: postgres:11-alpine
     restart: always
     environment:
@@ -10,3 +10,38 @@ services:
       - POSTGRES_PASSWORD=postgres
     ports:
       - '5432:5432'
+  node-rabbitmq:
+    container_name: node-rabbitmq
+    image: rabbitmq:3-management-alpine
+    restart: on-failure
+    ports:
+    - '5672:5672'
+    healthcheck:
+      test: [ "CMD", "nc", "-z", "localhost", "5672" ]
+      interval: 5s
+      timeout: 15s
+      retries: 1
+  node-mongo:
+    container_name: node-mongo
+    image: mongo
+    restart: on-failure
+    ports:
+    - '27017-27019:27017-27019'
+    environment:
+      - MONGO_INITDB_DATABASE=node_sample
+  node-sample:
+    container_name: node-sample
+    build:
+      context: ./
+    volumes:
+      - ./:/usr/src/sample/
+    ports:
+    - '3000:3000'
+    environment:
+      - DBADDR=node-db:5432
+      - RABBIT_URL=amqp://guest:guest@node-rabbitmq:5672/
+      - LOG_DB_URL=mongodb://node-mongo:27017/node_sample
+    depends_on:
+      - node-db
+      - node-rabbitmq
+      - node-mongo
