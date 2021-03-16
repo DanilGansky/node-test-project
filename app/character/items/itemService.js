@@ -40,7 +40,7 @@ const isValidItemData = (name, icon, params) => {
   }
 
   for (let param of params) {
-    if (!param.hasOwnProperty("name") || !param.hasOwnProperty("value")) {
+    if (!param.hasOwnProperty("StatId") || !param.hasOwnProperty("value")) {
       return false;
     }
   }

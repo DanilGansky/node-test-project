@@ -2,27 +2,27 @@ module.exports = {
   up: async (queryInterface, Sequelize) => {
     return queryInterface.bulkInsert("Parameters", [
       {
-        name: "protection",
+        StatId: 7,
         value: 10,
       },
       {
-        name: "agility",
+        StatId: 2,
         value: -10,
       },
       {
-        name: "rangedDamage",
+        StatId: 6,
         value: 5,
       },
       {
-        name: "meleeDamage",
+        StatId: 5,
         value: 15,
       },
       {
-        name: "agility",
+        StatId: 2,
         value: -5,
       },
       {
-        name: "rangedDamage",
+        StatId: 6,
         value: 50,
       },
     ]);

@@ -20,9 +20,8 @@ const findAll = async () =>
         },
         through: { attributes: [] },
       },
-      {
-        model: db.User,
-      },
+      { model: db.User },
+      { model: db.Stat },
     ],
   });
 
@@ -35,6 +34,7 @@ const findByID = async (id) => {
         include: {
           model: db.Parameter,
           through: { attributes: [] },
+          include: db.Stat,
         },
         through: { attributes: [] },
       },
@@ -43,12 +43,12 @@ const findByID = async (id) => {
         include: {
           model: db.Parameter,
           through: { attributes: [] },
+          include: db.Stat,
         },
         through: { attributes: [] },
       },
-      {
-        model: db.User,
-      },
+      { model: db.User },
+      { model: db.Stat },
     ],
   });
 
@@ -67,6 +67,7 @@ const findByUserID = async (userID) => {
         include: {
           model: db.Parameter,
           through: { attributes: [] },
+          include: db.Stat,
         },
         through: { attributes: [] },
       },
@@ -75,12 +76,12 @@ const findByUserID = async (userID) => {
         include: {
           model: db.Parameter,
           through: { attributes: [] },
+          include: db.Stat,
         },
         through: { attributes: [] },
       },
-      {
-        model: db.User,
-      },
+      { model: db.User },
+      { model: db.Stat },
     ],
   });
 
@@ -100,10 +101,20 @@ const update = (data, id) => {
   });
 };
 
+const findCharacterStat = (statID, characterID) => {
+  return db.CharacterStats.findOne({
+    where: {
+      StatId: statID,
+      CharacterId: characterID,
+    },
+  });
+};
+
 module.exports = {
   findAll,
   findByUserID,
   findByID,
   create,
   update,
+  findCharacterStat,
 };

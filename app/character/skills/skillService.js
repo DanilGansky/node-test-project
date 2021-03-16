@@ -10,7 +10,7 @@ const create = async (body) => {
     return Promise.reject(InvalidSkillData);
   }
 
-  return await skillRepository.create(name, params);
+  return skillRepository.create(name, params);
 };
 
 const update = async (body, id) => {
@@ -40,7 +40,7 @@ const isValidSkillData = (name, params) => {
   }
 
   for (let param of params) {
-    if (!param.hasOwnProperty("name") || !param.hasOwnProperty("value")) {
+    if (!param.hasOwnProperty("StatId") || !param.hasOwnProperty("value")) {
       return false;
     }
   }

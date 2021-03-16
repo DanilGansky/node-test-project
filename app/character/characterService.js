@@ -27,26 +27,22 @@ const setDescription = async (description, userID) => {
 
 const update = async (data, userID) => {
   const character = await characterRepository.findByUserID(userID);
-  await character.updateStats({
-    skills: character.Skills,
-    items: character.Items,
-  });
+  const stats = await character.getStats();
 
-  if (data.strength) {
-    character.strength += data.strength;
-  }
-  if (data.agility) {
-    character.agility += data.agility;
-  }
-  if (data.endurance) {
-    character.endurance += data.endurance;
-  }
-  if (data.intelligence) {
-    character.intelligence += data.intelligence;
+  for (let statKey in data) {
+    for (let stat of stats) {
+      if (stat.name === statKey) {
+        const characterStat = await characterRepository.findCharacterStat(
+          stat.id,
+          character.id
+        );
+
+        characterStat.value = data[statKey];
+        await characterStat.save();
+      }
+    }
   }
 
-  character.calcStats();
-  await characterRepository.update(character.dataValues, character.id);
   return await characterRepository.findByUserID(userID);
 };
 
@@ -54,10 +50,7 @@ const setSkills = async (skillIDs, userID) => {
   const skills = await skillRepository.findByIDs(skillIDs);
   const character = await characterRepository.findByUserID(userID);
 
-  await character.updateStats({ skills: skills, items: character.Items });
-  character.calcStats();
-
-  await characterRepository.update(character.dataValues, character.id);
+  await character.updateAmmunition({ skills: skills, items: character.Items });
   return await characterRepository.findByUserID(userID);
 };
 
@@ -65,10 +58,7 @@ const setItems = async (itemIDs, userID) => {
   const items = await itemRepository.findByIDs(itemIDs);
   const character = await characterRepository.findByUserID(userID);
 
-  await character.updateStats({ items: items, skills: character.Skills });
-  character.calcStats();
-
-  await characterRepository.update(character.dataValues, character.id);
+  await character.updateAmmunition({ items: items, skills: character.Skills });
   return await characterRepository.findByUserID(userID);
 };
 

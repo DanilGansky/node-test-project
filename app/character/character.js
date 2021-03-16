@@ -10,56 +10,6 @@ class Character extends Sequelize.Model {
         description: {
           type: DataTypes.STRING,
         },
-        strength: {
-          type: DataTypes.INTEGER,
-          allowNull: false,
-          defaultValue: 0,
-        },
-        agility: {
-          type: DataTypes.INTEGER,
-          allowNull: false,
-          defaultValue: 0,
-        },
-        endurance: {
-          type: DataTypes.INTEGER,
-          allowNull: false,
-          defaultValue: 0,
-        },
-        intelligence: {
-          type: DataTypes.INTEGER,
-          allowNull: false,
-          defaultValue: 0,
-        },
-        meleeDamage: {
-          type: DataTypes.INTEGER,
-          allowNull: false,
-          defaultValue: 5,
-        },
-        rangedDamage: {
-          type: DataTypes.INTEGER,
-          allowNull: false,
-          defaultValue: 5,
-        },
-        protection: {
-          type: DataTypes.INTEGER,
-          allowNull: false,
-          defaultValue: 5,
-        },
-        damageFromMagic: {
-          type: DataTypes.INTEGER,
-          allowNull: false,
-          defaultValue: 2,
-        },
-        hp: {
-          type: DataTypes.INTEGER,
-          allowNull: false,
-          defaultValue: 100,
-        },
-        mp: {
-          type: DataTypes.INTEGER,
-          allowNull: false,
-          defaultValue: 100,
-        },
       },
       {
         sequelize,
@@ -80,6 +30,20 @@ class Character extends Sequelize.Model {
       through: "CharacterItems",
       timestamps: false,
     });
+
+    this.stats = this.belongsToMany(models.Stat, {
+      through: "CharacterStats",
+      foreignKey: "CharacterId",
+      timestamps: false,
+    });
+  }
+
+  async updateAmmunition({ skills, items }) {
+    await this.removeSkills();
+    await this.removeItems();
+
+    await this.setSkills(skills);
+    await this.setItems(items);
   }
 
   async updateStats({ skills, items }) {

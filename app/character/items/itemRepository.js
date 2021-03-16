@@ -7,6 +7,7 @@ const findAll = async () =>
     include: {
       model: db.Parameter,
       through: { attributes: [] },
+      include: db.Stat,
     },
   });
 
@@ -21,6 +22,7 @@ const findByID = async (id) =>
       include: {
         model: db.Parameter,
         through: { attributes: [] },
+        include: db.Stat,
       },
     }
   );
@@ -35,6 +37,7 @@ const findByIDs = async (ids) =>
     include: {
       model: db.Parameter,
       through: { attributes: [] },
+      include: db.Stat,
     },
   });
 
@@ -45,6 +48,7 @@ const create = async (name, icon, params) => {
       include: {
         model: db.Parameter,
         through: { attributes: [] },
+        include: db.Stat,
       },
     }
   );
@@ -66,6 +70,7 @@ const update = async (item, params) => {
       include: {
         model: db.Parameter,
         through: { attributes: [] },
+        include: db.Stat,
       },
     }
   );

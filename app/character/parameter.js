@@ -4,10 +4,6 @@ class Parameter extends Sequelize.Model {
   static init(sequelize, DataTypes) {
     return super.init(
       {
-        name: {
-          type: DataTypes.STRING,
-          allowNull: false,
-        },
         value: {
           type: DataTypes.INTEGER,
           allowNull: false,
@@ -22,10 +18,12 @@ class Parameter extends Sequelize.Model {
   }
 
   static associate(models) {
+    this.stat = this.belongsTo(models.Stat, { onDelete: "cascade" });
     this.skills = this.belongsToMany(models.Skill, {
       through: "SkillParams",
       timestamps: false,
     });
+
     this.items = this.belongsToMany(models.Item, {
       through: "ItemParams",
       timestamps: false,
