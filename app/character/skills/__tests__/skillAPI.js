@@ -4,10 +4,6 @@ const app = require("../../../../server");
 const accessToken =
   "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE2MTU1NDk5MjcsImRhdGEiOiJndWVzdEBtYWlsLmNvbSIsImlhdCI6MTYxNTU0NjMyN30._tePp7lYI4ZEs4WxVcETQ7YS3le0wPdVwod9X4gRXOs";
 
-afterAll(async (done) => {
-  app.close(done);
-});
-
 describe("skillAPI tests (integration tests)", () => {
   test("get all skills", async () => {
     const resp = await request(app)

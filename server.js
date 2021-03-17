@@ -48,6 +48,4 @@ app.use("/media", (req, resp) => {
   });
 });
 
-module.exports = app.listen(appConfig.PORT, () => {
-  console.log(`Running on ${appConfig.HOST}:${appConfig.PORT}...`);
-});
+module.exports = app;

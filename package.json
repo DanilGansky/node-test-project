@@ -4,9 +4,10 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "start": "node server.js",
+    "start": "node index.js",
     "migrate": "cd ./app; npx sequelize-cli db:migrate",
-    "seeders": "cd ./app; npx sequelize-cli db:seed:all"
+    "seeders": "cd ./app; npx sequelize-cli db:seed:all",
+    "test": "jest --forceExit"
   },
   "author": "",
   "license": "ISC",
