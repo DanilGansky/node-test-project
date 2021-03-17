@@ -23,6 +23,10 @@ const update = async (body, id) => {
   }
 
   const item = await itemRepository.findByID(id);
+
+  item.name = name;
+  item.icon = icon;
+
   await itemRepository.update(item, params);
   return await itemRepository.findByID(id);
 };

@@ -23,6 +23,8 @@ const update = async (body, id) => {
   }
 
   const skill = await skillRepository.findByID(id);
+  skill.name = name;
+
   await skillRepository.update(skill, params);
   return await skillRepository.findByID(id);
 };
