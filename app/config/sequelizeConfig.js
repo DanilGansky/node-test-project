@@ -3,7 +3,7 @@ if (result.error) {
   console.error("dotenv: " + result.error);
 }
 
-const addr = (process.env.TEST
+const addr = (process.env.TEST === "true"
   ? process.env.TEST_DBADDR
   : process.env.DBADDR
 ).split(":");

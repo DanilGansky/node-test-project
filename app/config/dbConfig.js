@@ -4,7 +4,8 @@ const config = {
   USER: process.env.DBUSER,
   PASS: process.env.DBPASS,
   NAME: process.env.DBNAME,
-  ADDR: process.env.TEST ? process.env.TEST_DBADDR : process.env.DBADDR,
+  ADDR:
+    process.env.TEST === "true" ? process.env.TEST_DBADDR : process.env.DBADDR,
 };
 
 const sequelize = new Sequelize(

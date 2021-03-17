@@ -10,16 +10,6 @@ services:
       - POSTGRES_PASSWORD=postgres
     ports:
       - '5432:5432'
-  node-test-db:
-    container_name: node-test-db
-    image: postgres:11-alpine
-    restart: always
-    environment:
-      - POSTGRES_DB=node_sample
-      - POSTGRES_USER=postgres
-      - POSTGRES_PASSWORD=postgres
-    ports:
-      - '5432:5432'
   node-rabbitmq:
     container_name: node-rabbitmq
     image: rabbitmq:3-management-alpine
@@ -43,7 +33,7 @@ services:
     container_name: node-sample
     restart: on-failure
     build:
-      context: ./
+      context: ../..
     volumes:
       - ./:/usr/src/sample/
     ports:

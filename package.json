@@ -7,7 +7,7 @@
     "start": "node index.js",
     "migrate": "cd ./app; npx sequelize-cli db:migrate",
     "seeders": "cd ./app; npx sequelize-cli db:seed:all",
-    "test": "jest --forceExit"
+    "test": "export TEST=true; jest --forceExit"
   },
   "author": "",
   "license": "ISC",

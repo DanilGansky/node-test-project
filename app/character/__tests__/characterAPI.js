@@ -62,7 +62,7 @@ describe("characterAPI tests (integration tests)", () => {
 
     expect(resp.statusCode).toEqual(200);
     expect(resp.body.character.Skills).not.toBeUndefined();
-    expect(resp.body.character.Skills.length).toEqual(3);
+    expect(resp.body.character.Skills.length).toBeGreaterThan(0);
   });
 
   test("set items", async () => {
@@ -75,7 +75,7 @@ describe("characterAPI tests (integration tests)", () => {
 
     expect(resp.statusCode).toEqual(200);
     expect(resp.body.character.Items).not.toBeUndefined();
-    expect(resp.body.character.Items.length).toEqual(1);
+    expect(resp.body.character.Items.length).toBeGreaterThan(0);
   });
 
   test("get character stats", async () => {
