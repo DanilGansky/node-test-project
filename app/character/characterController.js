@@ -6,27 +6,30 @@ const findByID = async (req, resp) => {
     const character = await characterService.findByID(req.user.id);
     resp.status(200).json({ character: character });
   } catch (e) {
-    const status = determineStatus(e);
-    logger.error({ status: status, message: e, tags: ["findByID"] });
-    resp.status(status).json({ error: e });
+    const err = errorToObject(e);
+    const status = determineStatus(err);
+    logger.error({ status: status, message: err, tags: ["findByID"] });
+    resp.status(status).json({ error: err });
   }
 };
 
 const uploadAvatar = async (req, resp) => {
   const files = req.files;
-  const buffer = Buffer.from(Object.values(files[0].buffer));
 
   try {
+    const buffer = Buffer.from(Object.values(files[0].buffer));
     const outPath = await characterService.uploadAvatar(
       buffer,
       files[0].originalname,
       req.user.id
     );
+
     resp.status(200).json({ outPath: outPath });
   } catch (e) {
-    const status = determineStatus(e);
-    logger.error({ status: status, message: e, tags: ["uploadAvatar"] });
-    resp.status(status).json({ error: e });
+    const err = errorToObject(e);
+    const status = determineStatus(err);
+    logger.error({ status: status, message: err, tags: ["uploadAvatar"] });
+    resp.status(status).json({ error: err });
   }
 };
 
@@ -41,9 +44,10 @@ const setDescription = async (req, resp) => {
 
     resp.status(200).json({ character: character });
   } catch (e) {
-    const status = determineStatus(e);
-    logger.error({ status: status, message: e, tags: ["setDescription"] });
-    resp.status(status).json({ error: e });
+    const err = errorToObject(e);
+    const status = determineStatus(err);
+    logger.error({ status: status, message: err, tags: ["setDescription"] });
+    resp.status(status).json({ error: err });
   }
 };
 
@@ -52,9 +56,10 @@ const update = async (req, resp) => {
     const character = await characterService.update(req.body, req.user.id);
     resp.status(200).json({ character: character });
   } catch (e) {
-    const status = determineStatus(e);
-    logger.error({ status: status, message: e, tags: ["update"] });
-    resp.status(status).json({ error: e });
+    const err = errorToObject(e);
+    const status = determineStatus(err);
+    logger.error({ status: status, message: err, tags: ["update"] });
+    resp.status(status).json({ error: err });
   }
 };
 
@@ -64,11 +69,13 @@ const setSkills = async (req, resp) => {
       req.body.skillIDs,
       req.user.id
     );
+
     resp.status(200).json({ character: character });
   } catch (e) {
-    const status = determineStatus(e);
-    logger.error({ status: status, message: e, tags: ["setSkills"] });
-    resp.status(status).json({ error: e });
+    const err = errorToObject(e);
+    const status = determineStatus(err);
+    logger.error({ status: status, message: err, tags: ["setSkills"] });
+    resp.status(status).json({ error: err });
   }
 };
 
@@ -78,11 +85,13 @@ const setItems = async (req, resp) => {
       req.body.itemIDs,
       req.user.id
     );
+
     resp.status(200).json({ character: character });
   } catch (e) {
-    const status = determineStatus(e);
-    logger.error({ status: status, message: e, tags: ["setItems"] });
-    resp.status(status).json({ error: e });
+    const err = errorToObject(e);
+    const status = determineStatus(err);
+    logger.error({ status: status, message: err, tags: ["setItems"] });
+    resp.status(status).json({ error: err });
   }
 };
 
@@ -91,9 +100,10 @@ const getStats = async (req, resp) => {
     const stats = await characterService.getStats(req.user.id);
     resp.status(200).json({ stats: stats });
   } catch (e) {
-    const status = determineStatus(e);
-    logger.error({ status: status, message: e, tags: ["getStats"] });
-    resp.status(status).json({ error: e });
+    const err = errorToObject(e);
+    const status = determineStatus(err);
+    logger.error({ status: status, message: err, tags: ["getStats"] });
+    resp.status(status).json({ error: err });
   }
 };
 
@@ -106,6 +116,13 @@ const determineStatus = (e) => {
     default:
       return 500;
   }
+};
+
+const errorToObject = (e) => {
+  if (e instanceof Error) {
+    return { name: e.name, message: e.message };
+  }
+  return e;
 };
 
 module.exports = (service, log) => {

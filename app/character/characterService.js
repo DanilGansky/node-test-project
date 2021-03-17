@@ -6,8 +6,11 @@ let itemRepository;
 let uploadService;
 let statRepository;
 
-const create = async (userID) =>
-  await characterRepository.create({ UserId: userID });
+const create = async (userID) => {
+  const character = await characterRepository.create({ UserId: userID });
+  await statRepository.createDefaultCharacterStats(character.id);
+  return character;
+};
 
 const findByID = async (userID) =>
   await characterRepository.findByUserID(userID);

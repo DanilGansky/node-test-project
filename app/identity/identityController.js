@@ -6,9 +6,10 @@ const register = async (req, resp) => {
     const user = await authService.register(req.body);
     resp.status(200).json({ user: user });
   } catch (e) {
-    const status = determineStatus(e);
-    logger.error({ status: status, message: e, tags: ["register"] });
-    resp.status(status).json({ error: e });
+    const err = errorToObject(e);
+    const status = determineStatus(err);
+    logger.error({ status: status, message: err, tags: ["register"] });
+    resp.status(status).json({ error: err });
   }
 };
 
@@ -17,9 +18,10 @@ const login = async (req, resp) => {
     const result = await authService.login(req.body);
     resp.status(200).json({ result: result });
   } catch (e) {
-    const status = determineStatus(e);
-    logger.error({ status: status, message: e, tags: ["login"] });
-    resp.status(status).json({ error: e });
+    const err = errorToObject(e);
+    const status = determineStatus(err);
+    logger.error({ status: status, message: err, tags: ["login"] });
+    resp.status(status).json({ error: err });
   }
 };
 
@@ -29,9 +31,10 @@ const logout = async (req, resp) => {
     const result = await authService.logout(email);
     resp.status(200).json({ result: result });
   } catch (e) {
-    const status = determineStatus(e);
-    logger.error({ status: status, message: e, tags: ["logout"] });
-    resp.status(status).json({ error: e });
+    const err = errorToObject(e);
+    const status = determineStatus(err);
+    logger.error({ status: status, message: err, tags: ["logout"] });
+    resp.status(status).json({ error: err });
   }
 };
 
@@ -42,11 +45,17 @@ const sendActivationCode = async (req, resp) => {
       activationToken,
       phoneNumber
     );
+
     resp.status(200).json({ result: result });
   } catch (e) {
-    const status = determineStatus(e);
-    logger.error({ status: status, message: e, tags: ["sendActivationCode"] });
-    resp.status(status).json({ error: e });
+    const err = errorToObject(e);
+    const status = determineStatus(err);
+    logger.error({
+      status: status,
+      message: err,
+      tags: ["sendActivationCode"],
+    });
+    resp.status(status).json({ error: err });
   }
 };
 
@@ -55,9 +64,10 @@ const activate = async (req, resp) => {
     const result = await authService.activateUser(req.body.activationCode);
     resp.status(200).json({ result: result });
   } catch (e) {
-    const status = determineStatus(e);
-    logger.error({ status: status, message: e, tags: ["activate"] });
-    resp.status(status).json({ error: e });
+    const err = errorToObject(e);
+    const status = determineStatus(err);
+    logger.error({ status: status, message: err, tags: ["activate"] });
+    resp.status(status).json({ error: err });
   }
 };
 
@@ -86,6 +96,13 @@ const determineStatus = (e) => {
     default:
       return 500;
   }
+};
+
+const errorToObject = (e) => {
+  if (e instanceof Error) {
+    return { name: e.name, message: e.message };
+  }
+  return e;
 };
 
 module.exports = (service, log) => {

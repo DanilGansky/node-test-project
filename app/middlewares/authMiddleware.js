@@ -18,6 +18,7 @@ const authMiddleware = async (req, resp, next) => {
   try {
     req.email = jwt.verify(token, appConfig.SECRET).data;
   } catch (e) {
+    const err = errorToObject(e);
     resp.status(401).json(InvalidToken);
     return;
   }
@@ -40,6 +41,13 @@ const InvalidToken = {
 const BlockedToken = {
   name: "BlockedToken",
   message: "this token cannot be used for accessing",
+};
+
+const errorToObject = (e) => {
+  if (e instanceof Error) {
+    return { name: e.name, message: e.message };
+  }
+  return e;
 };
 
 module.exports = (repository) => {

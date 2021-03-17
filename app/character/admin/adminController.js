@@ -6,8 +6,9 @@ const findAll = async (req, resp) => {
     const characters = await adminService.findAll();
     resp.status(200).json({ characters: characters });
   } catch (e) {
-    logger.error({ status: 500, message: e, tags: ["findAll"] });
-    resp.status(500).json({ error: e });
+    const err = errorToObject(e);
+    logger.error({ status: status, message: err, tags: ["findAll"] });
+    resp.status(status).json({ error: err });
   }
 };
 
@@ -16,9 +17,17 @@ const findByID = async (req, resp) => {
     const character = await adminService.findByID(req.params);
     resp.status(200).json({ character: character });
   } catch (e) {
-    logger.error({ status: 404, message: e, tags: ["findByID"] });
-    resp.status(404).json({ error: e });
+    const err = errorToObject(e);
+    logger.error({ status: status, message: err, tags: ["findByID"] });
+    resp.status(status).json({ error: err });
   }
+};
+
+const errorToObject = (e) => {
+  if (e instanceof Error) {
+    return { name: e.name, message: e.message };
+  }
+  return e;
 };
 
 module.exports = (service, log) => {

@@ -1,42 +1,25 @@
 const express = require("express");
 const multer = require("multer");
-const { appConfig } = require("../config");
 
 const router = express.Router();
 const upload = multer();
 
-let characterRepo;
-let skillRepo;
-let itemRepo;
-let statRepo;
+const logger = require("../logger");
+const characterRepo = require("./characterRepository");
+const skillRepo = require("./skills/skillRepository");
+const itemRepo = require("./items/itemRepository");
+const statRepo = require("./statRepository");
+const uploader = require("../uploading/uploadService");
+const service = require("./characterService")(
+  characterRepo,
+  skillRepo,
+  itemRepo,
+  uploader,
+  statRepo
+);
 
-let service;
-let controller;
-
-let uploader;
-let eventConsumer;
-let logger;
-
-// todo: make mocks
-if (appConfig.TEST) {
-} else {
-  logger = require("../logger");
-  characterRepo = require("./characterRepository");
-  skillRepo = require("./skills/skillRepository");
-  itemRepo = require("./items/itemRepository");
-  statRepo = require("./statRepository");
-  uploader = require("../uploading/uploadService");
-  service = require("./characterService")(
-    characterRepo,
-    skillRepo,
-    itemRepo,
-    uploader,
-    statRepo
-  );
-
-  controller = require("./characterController")(service, logger);
-  eventConsumer = require("./eventConsumer")(service);
-}
+const controller = require("./characterController")(service, logger);
+const eventConsumer = require("./eventConsumer")(service);
 
 eventConsumer.startReceiving();
 

@@ -1,44 +1,26 @@
 const express = require("express");
-const { appConfig } = require("../config");
 
 const router = express.Router();
+const activationTokenRepository = require("./activation/activationTokenRepository");
+const activationCodeRepository = require("./activation/activationCodeRepository");
+const accessTokenRepository = require("./activation/accessTokenRepository");
+const userRepository = require("./users/userRepository");
+const emailService = require("./emailService")(activationTokenRepository);
+const smsService = require("./smsService")(activationCodeRepository);
+const eventSenderService = require("./eventSenderService");
+const logger = require("../logger");
 
-let activationCodeRepository;
-let userRepository;
-let activationTokenRepository;
-let accessTokenRepository;
+const authService = require("./authService")(
+  emailService,
+  smsService,
+  userRepository,
+  eventSenderService,
+  activationTokenRepository,
+  accessTokenRepository,
+  activationCodeRepository
+);
 
-let emailService;
-let smsService;
-let eventSenderService;
-let authService;
-
-let identityController;
-let logger;
-
-// todo: make mocks
-if (appConfig.TEST) {
-} else {
-  activationTokenRepository = require("./activation/activationTokenRepository");
-  activationCodeRepository = require("./activation/activationCodeRepository");
-  accessTokenRepository = require("./activation/accessTokenRepository");
-  userRepository = require("./users/userRepository");
-  emailService = require("./emailService")(activationTokenRepository);
-  smsService = require("./smsService")(activationCodeRepository);
-  eventSenderService = require("./eventSenderService");
-  logger = require("../logger");
-  authService = require("./authService")(
-    emailService,
-    smsService,
-    userRepository,
-    eventSenderService,
-    activationTokenRepository,
-    accessTokenRepository,
-    activationCodeRepository
-  );
-
-  identityController = require("./identityController")(authService, logger);
-}
+const identityController = require("./identityController")(authService, logger);
 
 router.post("/register", identityController.register);
 

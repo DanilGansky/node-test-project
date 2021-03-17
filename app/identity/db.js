@@ -1,5 +1,5 @@
 const User = require("./users/user");
-const dbConfig = require("../config/dbConfig");
+const { dbConfig } = require("../config");
 const AccessToken = require("./activation/accessToken");
 const ActivationCode = require("./activation/activationCode");
 const ActivationToken = require("./activation/activationToken");

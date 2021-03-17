@@ -1,21 +1,10 @@
 const express = require("express");
-const { appConfig } = require("../../config");
 
 const router = express.Router();
-
-let repository;
-let service;
-let controller;
-let logger;
-
-// todo: make mocks
-if (appConfig.TEST) {
-} else {
-  repository = require("../characterRepository");
-  service = require("./adminService")(repository);
-  logger = require("../../logger");
-  controller = require("./adminController")(service, logger);
-}
+const repository = require("../characterRepository");
+const service = require("./adminService")(repository);
+const logger = require("../../logger");
+const controller = require("./adminController")(service, logger);
 
 router.get("/characters", controller.findAll);
 
