@@ -52,4 +52,6 @@ router.put("/set-skills", controller.setSkills);
 
 router.put("/set-items", controller.setItems);
 
+router.get("/stats", controller.getStats);
+
 module.exports = router;

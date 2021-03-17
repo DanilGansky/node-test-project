@@ -86,6 +86,17 @@ const setItems = async (req, resp) => {
   }
 };
 
+const getStats = async (req, resp) => {
+  try {
+    const stats = await characterService.getStats(req.user.id);
+    resp.status(200).json({ stats: stats });
+  } catch (e) {
+    const status = determineStatus(e);
+    logger.error({ status: status, message: e, tags: ["getStats"] });
+    resp.status(status).json({ error: e });
+  }
+};
+
 const determineStatus = (e) => {
   switch (e.name) {
     case "CharacterNotFound":
@@ -108,5 +119,6 @@ module.exports = (service, log) => {
     uploadAvatar,
     setDescription,
     update,
+    getStats,
   };
 };
