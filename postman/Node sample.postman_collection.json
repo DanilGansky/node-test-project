@@ -207,6 +207,34 @@
 							"response": []
 						},
 						{
+							"name": "Get character stats",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE2MTU5NzA3NzUsImRhdGEiOiJhZG1pbkBtYWlsLmNvbSIsImlhdCI6MTYxNTk2NzE3NX0.uPLOKCeP614zK-NURziTvNrVPPpEm94vZGuPNo6aZ9A",
+											"type": "string"
+										}
+									]
+								},
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{addr}}/character/stats",
+									"host": [
+										"{{addr}}"
+									],
+									"path": [
+										"character",
+										"stats"
+									]
+								}
+							},
+							"response": []
+						},
+						{
 							"name": "Update description",
 							"request": {
 								"auth": {
