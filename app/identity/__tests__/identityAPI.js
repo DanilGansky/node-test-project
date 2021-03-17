@@ -8,10 +8,10 @@ const testPhoneNumber = "+380962582171";
 
 afterAll(async () => {
   try {
-    await db.ActivationCode.destroy({ truncate: true });
-    await db.ActivationToken.destroy({ truncate: true });
-    await db.AccessToken.destroy({ truncate: true });
-    await db.User.destroy({ truncate: true, cascade: true });
+    // await db.ActivationCode.destroy({ truncate: true });
+    // await db.ActivationToken.destroy({ truncate: true });
+    // await db.AccessToken.destroy({ truncate: true });
+    // await db.User.destroy({ truncate: true, cascade: true });
   } finally {
     await db.sequelize.close();
   }

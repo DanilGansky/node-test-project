@@ -8,24 +8,37 @@ const AUTH_PREFIX = "Bearer ";
 const authMiddleware = async (req, resp, next) => {
   let token = req.headers.authorization;
   if (!token) {
-    resp.status(401).json(InvalidToken);
+    resp.status(401).json({ error: InvalidToken });
     return;
   }
+
   if (token.startsWith(AUTH_PREFIX)) {
     token = token.slice(7, token.length);
+  }
+
+  let accessToken;
+  try {
+    accessToken = await accessTokenRepository.findByToken(token);
+  } catch (e) {
+    resp.status(401).json({ error: e });
+    return;
+  }
+
+  if (accessToken.isTest) {
+    req.user = accessToken.User;
+    next();
+    return;
+  }
+
+  if (accessToken.isBlocked) {
+    resp.status(401).json(BlockedToken);
+    return;
   }
 
   try {
     req.email = jwt.verify(token, appConfig.SECRET).data;
   } catch (e) {
-    const err = errorToObject(e);
-    resp.status(401).json(InvalidToken);
-    return;
-  }
-
-  const accessToken = await accessTokenRepository.findByToken(token);
-  if (accessToken.isBlocked) {
-    resp.status(401).json(BlockedToken);
+    resp.status(401).json({ error: InvalidToken });
     return;
   }
 
@@ -41,13 +54,6 @@ const InvalidToken = {
 const BlockedToken = {
   name: "BlockedToken",
   message: "this token cannot be used for accessing",
-};
-
-const errorToObject = (e) => {
-  if (e instanceof Error) {
-    return { name: e.name, message: e.message };
-  }
-  return e;
 };
 
 module.exports = (repository) => {

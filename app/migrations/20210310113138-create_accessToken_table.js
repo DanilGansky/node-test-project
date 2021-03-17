@@ -1,11 +1,11 @@
 module.exports = {
   up: async (queryInterface, Sequelize) => {
-    await queryInterface.createTable('AccessTokens', {
+    await queryInterface.createTable("AccessTokens", {
       id: {
         allowNull: false,
         autoIncrement: true,
         primaryKey: true,
-        type: Sequelize.INTEGER
+        type: Sequelize.INTEGER,
       },
       token: {
         type: Sequelize.STRING,
@@ -15,15 +15,20 @@ module.exports = {
         type: Sequelize.BOOLEAN,
         allowNull: false,
       },
+      isTest: {
+        type: Sequelize.BOOLEAN,
+        allowNull: false,
+        defaultValue: false,
+      },
       UserId: {
         allowNull: false,
         type: Sequelize.INTEGER,
         references: { model: "Users", key: "id" },
         onDelete: "cascade",
-      }
+      },
     });
   },
   down: async (queryInterface, Sequelize) => {
-    await queryInterface.dropTable('AccessTokens');
-  }
+    await queryInterface.dropTable("AccessTokens");
+  },
 };

@@ -10,6 +10,16 @@ services:
       - POSTGRES_PASSWORD=postgres
     ports:
       - '5432:5432'
+  node-test-db:
+    container_name: node-test-db
+    image: postgres:11-alpine
+    restart: always
+    environment:
+      - POSTGRES_DB=node_sample
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=postgres
+    ports:
+      - '5432:5432'
   node-rabbitmq:
     container_name: node-rabbitmq
     image: rabbitmq:3-management-alpine
@@ -41,6 +51,7 @@ services:
     command: bash -c "npm run migrate; npm run seeders; npm start"
     environment:
       - DBADDR=node-db:5432
+      - TEST_DBADDR=node-test-db:5432
       - RABBIT_URL=amqp://guest:guest@node-rabbitmq:5672/
       - LOG_DB_URL=mongodb://node-mongo:27017/node_sample
     depends_on:

@@ -4,7 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "start": "node index.js",
+    "start": "node server.js",
     "migrate": "cd ./app; npx sequelize-cli db:migrate",
     "seeders": "cd ./app; npx sequelize-cli db:seed:all"
   },
@@ -36,5 +36,6 @@
   },
   "jest": {
     "testEnvironment": "node"
-  }
+  },
+  "devDependencies": {}
 }
