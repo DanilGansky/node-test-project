@@ -70,7 +70,7 @@ describe("characterAPI tests (integration tests)", () => {
       .put("/character/set-items")
       .set("Authorization", accessToken)
       .send({
-        itemIDs: [1],
+        itemIDs: [1, 2, 3],
       });
 
     expect(resp.statusCode).toEqual(200);

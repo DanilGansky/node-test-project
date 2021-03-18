@@ -15,7 +15,7 @@ module.exports = {
         password:
           "$2a$10$hsTfGVAO8oCmqwDCfzUnkuuSlxA2DjLCEwAfxx.lKC4jvWmjhEP22",
         isActive: true,
-        isAdmin: false,
+        isAdmin: true,
         registeredAt: new Date(),
         lastLogin: new Date(),
       },
