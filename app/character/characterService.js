@@ -1,10 +1,17 @@
 const { appConfig } = require("../config");
+const { StatNotFound } = require("./statExceptions");
+const { SkillNotFound } = require("./skills/skillExceptions");
+const { ItemNotFound } = require("./items/itemExceptions");
 
 let characterRepository;
 let skillRepository;
 let itemRepository;
 let uploadService;
 let statRepository;
+
+let availableStats;
+let availableSkills;
+let availableItems;
 
 const create = async (userID) => {
   const character = await characterRepository.create({
@@ -37,8 +44,15 @@ const setDescription = async (description, userID) => {
 const update = async (data, userID) => {
   const character = await characterRepository.findByUserID(userID);
   const stats = await character.getStats();
+  if (!availableStats) {
+    availableStats = await statRepository.findAll();
+  }
 
   for (let statKey in data) {
+    if (!availableStats.includes(statKey)) {
+      return Promise.reject(StatNotFound);
+    }
+
     for (let stat of stats) {
       if (stat.name === statKey) {
         const characterStat = await characterRepository.findCharacterStat(
@@ -56,6 +70,19 @@ const update = async (data, userID) => {
 };
 
 const setSkills = async (skillIDs, userID) => {
+  if (!availableSkills) {
+    availableSkills = await skillRepository
+      .findAll()
+      .then((skills) => skills.map((skill) => skill.id));
+  }
+
+  if (
+    availableSkills.filter((skillID) => skillIDs.includes(skillID)).length !==
+    skillIDs.length
+  ) {
+    return Promise.reject(SkillNotFound);
+  }
+
   const skills = await skillRepository.findByIDs(skillIDs);
   const character = await characterRepository.findByUserID(userID);
 
@@ -64,6 +91,19 @@ const setSkills = async (skillIDs, userID) => {
 };
 
 const setItems = async (itemIDs, userID) => {
+  if (!availableItems) {
+    availableItems = await itemRepository
+      .findAll()
+      .then((items) => items.map((item) => item.id));
+  }
+
+  if (
+    availableItems.filter((itemID) => itemIDs.includes(itemID)).length !==
+    itemIDs.length
+  ) {
+    return Promise.reject(ItemNotFound);
+  }
+
   const items = await itemRepository.findByIDs(itemIDs);
   const character = await characterRepository.findByUserID(userID);
 

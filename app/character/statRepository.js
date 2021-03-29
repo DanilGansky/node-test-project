@@ -1,5 +1,10 @@
 const db = require("./db");
 
+const findAll = () =>
+  db.Stat.findAll({ attributes: ["name"] }).then((stats) =>
+    stats.map((stat) => stat.name)
+  );
+
 const findByID = (statID) => db.Stat.findOne({ where: { id: statID } });
 
 const createDefaultCharacterStats = (characterID) => {
@@ -59,5 +64,6 @@ const createDefaultCharacterStats = (characterID) => {
 
 module.exports = {
   findByID,
+  findAll,
   createDefaultCharacterStats,
 };
