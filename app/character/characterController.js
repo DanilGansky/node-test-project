@@ -1,10 +1,12 @@
+const { toCharacterResponse } = require("./characterMapper");
+
 let characterService;
 let logger;
 
 const findByID = async (req, resp) => {
   try {
     const character = await characterService.findByID(req.user.id);
-    resp.status(200).json({ character: character });
+    resp.status(200).json({ character: toCharacterResponse(character) });
   } catch (e) {
     const err = errorToObject(e);
     const status = determineStatus(err);
@@ -54,7 +56,7 @@ const setDescription = async (req, resp) => {
 const update = async (req, resp) => {
   try {
     const character = await characterService.update(req.body, req.user.id);
-    resp.status(200).json({ character: character });
+    resp.status(200).json({ character: toCharacterResponse(character) });
   } catch (e) {
     const err = errorToObject(e);
     const status = determineStatus(err);
@@ -70,7 +72,7 @@ const setSkills = async (req, resp) => {
       req.user.id
     );
 
-    resp.status(200).json({ character: character });
+    resp.status(200).json({ character: toCharacterResponse(character) });
   } catch (e) {
     const err = errorToObject(e);
     const status = determineStatus(err);
@@ -86,7 +88,7 @@ const setItems = async (req, resp) => {
       req.user.id
     );
 
-    resp.status(200).json({ character: character });
+    resp.status(200).json({ character: toCharacterResponse(character) });
   } catch (e) {
     const err = errorToObject(e);
     const status = determineStatus(err);

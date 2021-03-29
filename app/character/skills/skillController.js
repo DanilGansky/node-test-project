@@ -1,10 +1,12 @@
+const { toSkillResponse, toSkillsResponse } = require("./skillMapper");
+
 let skillService;
 let logger;
 
 const findAll = async (req, resp) => {
   try {
     const skills = await skillService.findAll();
-    resp.status(200).json({ skills: skills });
+    resp.status(200).json({ skills: toSkillsResponse(skills) });
   } catch (e) {
     const err = errorToObject(e);
     const status = determineStatus(err);
@@ -16,7 +18,7 @@ const findAll = async (req, resp) => {
 const create = async (req, resp) => {
   try {
     const skill = await skillService.create(req.body);
-    resp.status(201).json({ skill: skill });
+    resp.status(201).json({ skill: toSkillResponse(skill) });
   } catch (e) {
     const err = errorToObject(e);
     const status = determineStatus(err);
@@ -28,7 +30,7 @@ const create = async (req, resp) => {
 const update = async (req, resp) => {
   try {
     const skill = await skillService.update(req.body, req.params.id);
-    resp.status(200).json({ skill: skill });
+    resp.status(200).json({ skill: toSkillResponse(skill) });
   } catch (e) {
     const err = errorToObject(e);
     const status = determineStatus(err);
@@ -40,7 +42,7 @@ const update = async (req, resp) => {
 const remove = async (req, resp) => {
   try {
     const skill = await skillService.remove(req.params.id);
-    resp.status(200).json({ skill: skill });
+    resp.status(200).json({ skill: toSkillResponse(skill) });
   } catch (e) {
     const err = errorToObject(e);
     const status = determineStatus(err);

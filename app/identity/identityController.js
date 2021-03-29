@@ -3,8 +3,8 @@ let logger;
 
 const register = async (req, resp) => {
   try {
-    const user = await authService.register(req.body);
-    resp.status(200).json({ user: user });
+    await authService.register(req.body);
+    resp.status(200).send();
   } catch (e) {
     const err = errorToObject(e);
     const status = determineStatus(err);
@@ -27,8 +27,7 @@ const login = async (req, resp) => {
 
 const logout = async (req, resp) => {
   try {
-    const { email } = req.body;
-    const result = await authService.logout(email);
+    const result = await authService.logout(req.user.email);
     resp.status(200).json({ result: result });
   } catch (e) {
     const err = errorToObject(e);

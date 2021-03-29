@@ -26,6 +26,9 @@ const register = async (credentials) => {
       return Promise.reject(userExceptions.UserAlreadyRegistered);
     }
   } catch (e) {
+    if (e.name === "SequelizeDatabaseError") {
+      return Promise.reject(e);
+    }
     if (e.name !== "UserNotFound") {
       return Promise.reject(userExceptions.UserAlreadyRegistered);
     }

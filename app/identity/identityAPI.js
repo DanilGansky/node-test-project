@@ -1,4 +1,5 @@
 const express = require("express");
+const { authMiddleware } = require("../middlewares");
 
 const router = express.Router();
 const activationTokenRepository = require("./activation/activationTokenRepository");
@@ -26,10 +27,10 @@ router.post("/register", identityController.register);
 
 router.post("/login", identityController.login);
 
-router.post("/logout", identityController.logout);
-
 router.post("/send-activation-code", identityController.sendActivationCode);
 
 router.post("/activate", identityController.activate);
+
+router.use(authMiddleware).post("/logout", identityController.logout);
 
 module.exports = router;

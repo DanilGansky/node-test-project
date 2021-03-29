@@ -9,6 +9,7 @@ const findAll = async () =>
         include: {
           model: db.Parameter,
           through: { attributes: [] },
+          include: db.Stat,
         },
         through: { attributes: [] },
       },
@@ -17,6 +18,7 @@ const findAll = async () =>
         include: {
           model: db.Parameter,
           through: { attributes: [] },
+          include: db.Stat,
         },
         through: { attributes: [] },
       },

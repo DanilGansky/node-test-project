@@ -1,10 +1,12 @@
+const { toItemsResponse, toItemResponse } = require("./itemMapper");
+
 let itemService;
 let logger;
 
 const findAll = async (req, resp) => {
   try {
     const items = await itemService.findAll();
-    resp.status(200).json({ items: items });
+    resp.status(200).json({ items: toItemsResponse(items) });
   } catch (e) {
     const err = errorToObject(e);
     const status = determineStatus(err);
@@ -16,7 +18,7 @@ const findAll = async (req, resp) => {
 const create = async (req, resp) => {
   try {
     const item = await itemService.create(req.body);
-    resp.status(201).json({ item: item });
+    resp.status(201).json({ item: toItemResponse(item) });
   } catch (e) {
     const err = errorToObject(e);
     const status = determineStatus(err);
@@ -28,7 +30,7 @@ const create = async (req, resp) => {
 const update = async (req, resp) => {
   try {
     const item = await itemService.update(req.body, req.params.id);
-    resp.status(200).json({ item: item });
+    resp.status(200).json({ item: toItemResponse(item) });
   } catch (e) {
     const err = errorToObject(e);
     const status = determineStatus(err);
@@ -40,7 +42,7 @@ const update = async (req, resp) => {
 const remove = async (req, resp) => {
   try {
     const item = await itemService.remove(req.params.id);
-    resp.status(200).json({ item: item });
+    resp.status(200).json({ item: toItemResponse(item) });
   } catch (e) {
     const err = errorToObject(e);
     const status = determineStatus(err);
