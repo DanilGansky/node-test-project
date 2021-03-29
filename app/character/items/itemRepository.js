@@ -39,6 +39,7 @@ const findByID = async (id) => {
   if (!item) {
     return Promise.reject(ItemNotFound);
   }
+  return item;
 };
 
 const findByIDs = async (ids) =>
@@ -106,14 +107,18 @@ const update = async (item, params) => {
     return Promise.reject(ItemNotFound);
   }
 
-  await db.Parameter.destroy({
-    where: {
-      id: await item.getParameters().then((params) => params.map((p) => p.id)),
-    },
-  });
+  if (params) {
+    await db.Parameter.destroy({
+      where: {
+        id: await item
+          .getParameters()
+          .then((params) => params.map((p) => p.id)),
+      },
+    });
 
-  const parameters = await db.Parameter.bulkCreate(params);
-  await item.setParameters(parameters);
+    const parameters = await db.Parameter.bulkCreate(params);
+    await item.setParameters(parameters);
+  }
   return id;
 };
 

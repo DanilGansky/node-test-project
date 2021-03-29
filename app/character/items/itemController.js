@@ -27,6 +27,26 @@ const create = async (req, resp) => {
   }
 };
 
+const uploadIcon = async (req, resp) => {
+  const files = req.files;
+
+  try {
+    const buffer = Buffer.from(Object.values(files[0].buffer));
+    const item = await itemService.uploadIcon(
+      buffer,
+      files[0].originalname,
+      req.params.id
+    );
+
+    resp.status(200).json({ item: toItemResponse(item) });
+  } catch (e) {
+    const err = errorToObject(e);
+    const status = determineStatus(err);
+    logger.error({ status: status, message: err, tags: ["uploadIcon"] });
+    resp.status(status).json({ error: err });
+  }
+};
+
 const update = async (req, resp) => {
   try {
     const item = await itemService.update(req.body, req.params.id);
@@ -76,6 +96,7 @@ module.exports = (service, log) => {
   return {
     findAll,
     create,
+    uploadIcon,
     update,
     remove,
   };
