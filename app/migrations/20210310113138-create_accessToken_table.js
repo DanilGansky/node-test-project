@@ -15,11 +15,6 @@ module.exports = {
         type: Sequelize.BOOLEAN,
         allowNull: false,
       },
-      isTest: {
-        type: Sequelize.BOOLEAN,
-        allowNull: false,
-        defaultValue: false,
-      },
       UserId: {
         allowNull: false,
         type: Sequelize.INTEGER,

@@ -3,11 +3,6 @@ module.exports = {
     return queryInterface.bulkInsert("Characters", [
       {
         avatar: "",
-        description: "admin character",
-        UserId: 1,
-      },
-      {
-        avatar: "",
         description: "test character",
         UserId: 2,
       },

@@ -46,10 +46,10 @@ describe("characterAPI tests (integration tests)", () => {
       .put("/character/upload-avatar")
       .type("multipart/form-data")
       .set("Authorization", accessToken)
-      .attach("f", "/home/dev/Dev/node-sample/media/test.jpg");
+      .attach("f", "./media/test.jpg");
 
     expect(resp.statusCode).toEqual(200);
-    expect(resp.body.outPath).not.toBeUndefined();
+    expect(resp.body.character).not.toBeUndefined();
   });
 
   test("set skills", async () => {

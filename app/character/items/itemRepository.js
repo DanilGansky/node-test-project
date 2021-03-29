@@ -11,8 +11,8 @@ const findAll = async () =>
     },
   });
 
-const findByID = async (id) =>
-  await db.Item.findOne(
+const findByID = async (id) => {
+  const item = await db.Item.findOne(
     {
       where: {
         id: id,
@@ -26,6 +26,11 @@ const findByID = async (id) =>
       },
     }
   );
+
+  if (!item) {
+    return Promise.reject(ItemNotFound);
+  }
+};
 
 const findByIDs = async (ids) =>
   await db.Item.findAll({

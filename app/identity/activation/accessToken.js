@@ -12,11 +12,6 @@ class AccessToken extends Sequelize.Model {
           type: DataTypes.BOOLEAN,
           allowNull: false,
         },
-        isTest: {
-          type: DataTypes.BOOLEAN,
-          allowNull: false,
-          defaultValue: false,
-        },
       },
       {
         sequelize,

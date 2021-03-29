@@ -41,8 +41,8 @@ const update = async (req, resp) => {
 
 const remove = async (req, resp) => {
   try {
-    const skill = await skillService.remove(req.params.id);
-    resp.status(200).json({ skill: toSkillResponse(skill) });
+    await skillService.remove(req.params.id);
+    resp.status(204).send();
   } catch (e) {
     const err = errorToObject(e);
     const status = determineStatus(err);

@@ -24,12 +24,6 @@ const authMiddleware = async (req, resp, next) => {
     return;
   }
 
-  if (accessToken.isTest) {
-    req.user = accessToken.User;
-    next();
-    return;
-  }
-
   if (accessToken.isBlocked) {
     resp.status(401).json(BlockedToken);
     return;
