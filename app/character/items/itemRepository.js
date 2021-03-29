@@ -61,9 +61,9 @@ const findByIDs = async (ids) =>
     order: [["id", "ASC"]],
   });
 
-const create = async (name, icon, params) => {
+const create = async (name, params) => {
   const item = await db.Item.create(
-    { name: name, icon: icon },
+    { name: name },
     {
       include: {
         model: db.Parameter,

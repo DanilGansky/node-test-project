@@ -6,6 +6,7 @@ class Skill extends Sequelize.Model {
       {
         name: {
           type: DataTypes.STRING,
+          unique: true,
           allowNull: false,
         },
       },
