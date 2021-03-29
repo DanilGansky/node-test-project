@@ -620,7 +620,7 @@
 										"header": [],
 										"body": {
 											"mode": "raw",
-											"raw": "{\n    \"name\": \"Advanced bow\",\n    \"icon\": \"https://assets.leevalley.com/Size4/10026/05N5520-asymmetric-drawing-bow-f-37.jpg\",\n    \"params\": [{\n        \"StatId\": 1,\n        \"value\": 100\n    }, {\n        \"StatId\": 2,\n        \"value\": -20\n    }]\n}",
+											"raw": "{\n    \"name\": \"Advanced bow\",\n    \"params\": [{\n        \"StatId\": 1,\n        \"value\": 100\n    }, {\n        \"StatId\": 2,\n        \"value\": -20\n    }]\n}",
 											"options": {
 												"raw": {
 													"language": "json"
@@ -657,7 +657,7 @@
 										"header": [],
 										"body": {
 											"mode": "raw",
-											"raw": "{\n    \"name\": \"Advanced Bow\",\n    \"icon\": \"https://assets.leevalley.com/Size4/10026/05N5520-asymmetric-drawing-bow-f-37.jpg\",\n    \"params\": [{\n        \"StatId\": 2,\n        \"value\": 90\n    }]\n}",
+											"raw": "{\n    \"name\": \"Advanced Bow\",\n    \"params\": [{\n        \"StatId\": 2,\n        \"value\": 90\n    }]\n}",
 											"options": {
 												"raw": {
 													"language": "json"
@@ -702,6 +702,52 @@
 												"admin",
 												"items",
 												"3"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "Upload icon",
+									"request": {
+										"auth": {
+											"type": "bearer",
+											"bearer": [
+												{
+													"key": "token",
+													"value": "{{admin_token}}",
+													"type": "string"
+												}
+											]
+										},
+										"method": "PUT",
+										"header": [],
+										"body": {
+											"mode": "formdata",
+											"formdata": [
+												{
+													"key": "icon",
+													"type": "file",
+													"src": "/home/dev/Dev/node-sample/media/test.jpg"
+												}
+											]
+										},
+										"url": {
+											"raw": "{{addr}}/admin/items/:id/upload-icon",
+											"host": [
+												"{{addr}}"
+											],
+											"path": [
+												"admin",
+												"items",
+												":id",
+												"upload-icon"
+											],
+											"variable": [
+												{
+													"key": "id",
+													"value": "1"
+												}
 											]
 										}
 									},
