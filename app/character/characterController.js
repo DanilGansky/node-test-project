@@ -20,13 +20,13 @@ const uploadAvatar = async (req, resp) => {
 
   try {
     const buffer = Buffer.from(Object.values(files[0].buffer));
-    const outPath = await characterService.uploadAvatar(
+    const character = await characterService.uploadAvatar(
       buffer,
       files[0].originalname,
       req.user.id
     );
 
-    resp.status(200).json({ outPath: outPath });
+    resp.status(200).json({ character: toCharacterResponse(character) });
   } catch (e) {
     const err = errorToObject(e);
     const status = determineStatus(err);
@@ -44,7 +44,7 @@ const setDescription = async (req, resp) => {
       req.user.id
     );
 
-    resp.status(200).json({ character: character });
+    resp.status(200).json({ character: toCharacterResponse(character) });
   } catch (e) {
     const err = errorToObject(e);
     const status = determineStatus(err);

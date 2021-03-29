@@ -19,8 +19,9 @@ const uploadAvatar = async (data, filename, userID) => {
   const character = await characterRepository.findByUserID(userID);
   const filePath = await uploadService.upload(data, filename);
   const avatarURL = getAvatarURL(filePath);
+
   await characterRepository.update({ avatar: avatarURL }, character.id);
-  return avatarURL;
+  return await characterRepository.findByID(character.id);
 };
 
 const setDescription = async (description, userID) => {
