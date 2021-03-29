@@ -138,7 +138,7 @@ const isValidPhoneNumber = (phoneNumber) => {
 const generateAccessToken = (email) => {
   return jwt.sign(
     {
-      exp: Math.floor(Date.now() / 1000) + 60 * 60, // 1 hour
+      exp: Math.floor(Date.now() / 1000) + 1440 * 1440, // 1 day
       data: email,
     },
     appConfig.SECRET

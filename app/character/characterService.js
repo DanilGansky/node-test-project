@@ -7,7 +7,11 @@ let uploadService;
 let statRepository;
 
 const create = async (userID) => {
-  const character = await characterRepository.create({ UserId: userID });
+  const character = await characterRepository.create({
+    id: userID,
+    UserId: userID,
+  });
+
   await statRepository.createDefaultCharacterStats(character.id);
   return character;
 };
