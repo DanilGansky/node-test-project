@@ -9,21 +9,31 @@ const findAll = async () =>
         include: {
           model: db.Parameter,
           through: { attributes: [] },
-          include: db.Stat,
+          include: {
+            model: db.Stat,
+            order: [["id", "ASC"]],
+          },
+          order: [["id", "ASC"]],
         },
         through: { attributes: [] },
+        order: [["id", "ASC"]],
       },
       {
         model: db.Item,
         include: {
           model: db.Parameter,
           through: { attributes: [] },
-          include: db.Stat,
+          include: {
+            model: db.Stat,
+            order: [["id", "ASC"]],
+          },
+          order: [["id", "ASC"]],
         },
         through: { attributes: [] },
+        order: [["id", "ASC"]],
       },
-      { model: db.User },
-      { model: db.Stat },
+      { model: db.User, order: [["id", "ASC"]] },
+      { model: db.Stat, order: [["id", "ASC"]] },
     ],
   });
 
@@ -36,21 +46,31 @@ const findByID = async (id) => {
         include: {
           model: db.Parameter,
           through: { attributes: [] },
-          include: db.Stat,
+          include: {
+            model: db.Stat,
+            order: [["id", "ASC"]],
+          },
+          order: [["id", "ASC"]],
         },
         through: { attributes: [] },
+        order: [["id", "ASC"]],
       },
       {
         model: db.Item,
         include: {
           model: db.Parameter,
           through: { attributes: [] },
-          include: db.Stat,
+          include: {
+            model: db.Stat,
+            order: [["id", "ASC"]],
+          },
+          order: [["id", "ASC"]],
         },
         through: { attributes: [] },
+        order: [["id", "ASC"]],
       },
-      { model: db.User },
-      { model: db.Stat },
+      { model: db.User, order: [["id", "ASC"]] },
+      { model: db.Stat, order: [["id", "ASC"]] },
     ],
   });
 
@@ -69,21 +89,31 @@ const findByUserID = async (userID) => {
         include: {
           model: db.Parameter,
           through: { attributes: [] },
-          include: db.Stat,
+          include: {
+            model: db.Stat,
+            order: [["id", "ASC"]],
+          },
+          order: [["id", "ASC"]],
         },
         through: { attributes: [] },
+        order: [["id", "ASC"]],
       },
       {
         model: db.Item,
         include: {
           model: db.Parameter,
           through: { attributes: [] },
-          include: db.Stat,
+          include: {
+            model: db.Stat,
+            order: [["id", "ASC"]],
+          },
+          order: [["id", "ASC"]],
         },
         through: { attributes: [] },
+        order: [["id", "ASC"]],
       },
-      { model: db.User },
-      { model: db.Stat },
+      { model: db.User, order: [["id", "ASC"]] },
+      { model: db.Stat, order: [["id", "ASC"]] },
     ],
   });
 

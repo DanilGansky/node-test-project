@@ -7,8 +7,12 @@ const findAll = async () =>
     include: {
       model: db.Parameter,
       through: { attributes: [] },
-      include: db.Stat,
+      include: {
+        model: db.Stat,
+        order: [["id", "ASC"]],
+      },
     },
+    order: [["id", "ASC"]],
   });
 
 const findByID = async (id) => {
@@ -17,7 +21,10 @@ const findByID = async (id) => {
     include: {
       model: db.Parameter,
       through: { attributes: [] },
-      include: db.Stat,
+      include: {
+        model: db.Stat,
+        order: [["id", "ASC"]],
+      },
     },
   });
 
@@ -37,8 +44,12 @@ const findByIDs = async (ids) =>
     include: {
       model: db.Parameter,
       through: { attributes: [] },
-      include: db.Stat,
+      include: {
+        model: db.Stat,
+        order: [["id", "ASC"]],
+      },
     },
+    order: [["id", "ASC"]],
   });
 
 const create = async (name, params) => {
@@ -48,7 +59,10 @@ const create = async (name, params) => {
       include: {
         model: db.Parameter,
         through: { attributes: [] },
-        include: db.Stat,
+        include: {
+          model: db.Stat,
+          order: [["id", "ASC"]],
+        },
       },
     }
   );
@@ -70,7 +84,10 @@ const update = async (skill, params) => {
       include: {
         model: db.Parameter,
         through: { attributes: [] },
-        include: db.Stat,
+        include: {
+          model: db.Stat,
+          order: [["id", "ASC"]],
+        },
       },
     }
   );
