@@ -1,7 +1,4 @@
-const result = require("dotenv").config({ path: "../.env" });
-if (result.error) {
-  console.error("dotenv: " + result.error);
-}
+require("dotenv").config({ path: "../.env" });
 
 const addr = (process.env.TEST === "true"
   ? process.env.TEST_DBADDR

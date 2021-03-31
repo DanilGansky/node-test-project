@@ -1,5 +1,10 @@
 module.exports = {
-  findAll: () => [{}],
+  findAll: () =>
+    Promise.resolve([
+      { id: 1, name: "item", Parameters: [{}] },
+      { id: 2, name: "item", Parameters: [{}] },
+      { id: 3, name: "item", Parameters: [{}] },
+    ]),
   findByID: (id) => {
     return {
       id: id,
@@ -18,11 +23,10 @@ module.exports = {
       },
     ];
   },
-  create: (name, icon, params) => {
+  create: (name, params) => {
     return {
       id: 123,
       name: name,
-      icon: icon,
       Parameters: params,
     };
   },

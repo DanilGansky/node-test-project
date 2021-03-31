@@ -1,4 +1,5 @@
 module.exports = {
+  findAll: () => ["stat"],
   findByID: (statID) => {
     return {
       id: statID,

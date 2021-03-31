@@ -2,7 +2,7 @@ const request = require("supertest");
 const app = require("../../../../server");
 
 const accessToken =
-  "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE2MTU1NDk5MjcsImRhdGEiOiJndWVzdEBtYWlsLmNvbSIsImlhdCI6MTYxNTU0NjMyN30._tePp7lYI4ZEs4WxVcETQ7YS3le0wPdVwod9X4gRXOs";
+  "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJkYXRhIjoiYWRtaW5AbWFpbC5jb20iLCJpYXQiOjE2MTcxNzM2NTF9.m7MP5-GDjy_Kvw99Nv613BNC86QSpdulUakaz_8senc";
 
 describe("skillAPI tests (integration tests)", () => {
   test("get all skills", async () => {
@@ -39,7 +39,7 @@ describe("skillAPI tests (integration tests)", () => {
       .put("/admin/skills/1")
       .set("Authorization", accessToken)
       .send({
-        name: "super skill",
+        name: "updated skill",
         params: [
           {
             StatId: 1,
@@ -50,7 +50,7 @@ describe("skillAPI tests (integration tests)", () => {
 
     expect(resp.statusCode).toEqual(200);
     expect(resp.body.skill).not.toBeUndefined();
-    expect(resp.body.skill.name).toEqual("super skill");
+    expect(resp.body.skill.name).toEqual("updated skill");
   });
 
   test("delete skill", async () => {
@@ -58,8 +58,6 @@ describe("skillAPI tests (integration tests)", () => {
       .delete("/admin/skills/1")
       .set("Authorization", accessToken);
 
-    expect(resp.statusCode).toEqual(200);
-    expect(resp.body.skill).not.toBeUndefined();
-    expect(resp.body.skill).toEqual(1);
+    expect(resp.statusCode).toEqual(204);
   });
 });

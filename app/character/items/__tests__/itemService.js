@@ -1,5 +1,6 @@
 const itemRepository = require("../__mocks__/itemRepository");
-const itemService = require("../itemService")(itemRepository);
+const { uploader } = require("../../__mocks__/uploadService");
+const itemService = require("../itemService")(itemRepository, uploader);
 
 describe("test itemService", () => {
   test("findAll", async () => {
@@ -10,7 +11,6 @@ describe("test itemService", () => {
   test("create", async () => {
     const body = {
       name: "item",
-      icon: "icon",
       params: [
         {
           StatId: 123,
@@ -23,14 +23,11 @@ describe("test itemService", () => {
     expect(item).not.toBeUndefined();
     expect(item.id).not.toBeUndefined();
     expect(item.name).not.toBeUndefined();
-    expect(item.icon).not.toBeUndefined();
-    expect(item.Parameters).not.toBeUndefined();
   });
 
   test("update", async () => {
     const body = {
       name: "item",
-      icon: "icon",
       params: [
         {
           StatId: 123,
@@ -43,8 +40,6 @@ describe("test itemService", () => {
     expect(item).not.toBeUndefined();
     expect(item.id).not.toBeUndefined();
     expect(item.name).not.toBeUndefined();
-    expect(item.icon).not.toBeUndefined();
-    expect(item.Parameters).not.toBeUndefined();
   });
 
   test("remove", async () => {

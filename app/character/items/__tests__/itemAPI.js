@@ -2,7 +2,7 @@ const request = require("supertest");
 const app = require("../../../../server");
 
 const accessToken =
-  "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE2MTU1NDk5MjcsImRhdGEiOiJndWVzdEBtYWlsLmNvbSIsImlhdCI6MTYxNTU0NjMyN30._tePp7lYI4ZEs4WxVcETQ7YS3le0wPdVwod9X4gRXOs";
+  "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJkYXRhIjoiYWRtaW5AbWFpbC5jb20iLCJpYXQiOjE2MTcxNzM2NTF9.m7MP5-GDjy_Kvw99Nv613BNC86QSpdulUakaz_8senc";
 
 describe("itemAPI tests (integration tests)", () => {
   test("get all items", async () => {
@@ -21,7 +21,6 @@ describe("itemAPI tests (integration tests)", () => {
       .set("Authorization", accessToken)
       .send({
         name: "super item",
-        icon: "some icon",
         params: [
           {
             StatId: 1,
@@ -40,8 +39,7 @@ describe("itemAPI tests (integration tests)", () => {
       .put("/admin/items/1")
       .set("Authorization", accessToken)
       .send({
-        name: "super item",
-        icon: "some icon",
+        name: "updated item",
         params: [
           {
             StatId: 1,
@@ -52,7 +50,7 @@ describe("itemAPI tests (integration tests)", () => {
 
     expect(resp.statusCode).toEqual(200);
     expect(resp.body.item).not.toBeUndefined();
-    expect(resp.body.item.name).toEqual("super item");
+    expect(resp.body.item.name).toEqual("updated item");
   });
 
   test("delete item", async () => {
@@ -60,8 +58,6 @@ describe("itemAPI tests (integration tests)", () => {
       .delete("/admin/items/1")
       .set("Authorization", accessToken);
 
-    expect(resp.statusCode).toEqual(200);
-    expect(resp.body.item).not.toBeUndefined();
-    expect(resp.body.item).toEqual(1);
+    expect(resp.statusCode).toEqual(204);
   });
 });

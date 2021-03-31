@@ -3,15 +3,21 @@ module.exports = {
     return queryInterface.bulkInsert("AccessTokens", [
       {
         token:
-          "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE2MTU1NDk5MjcsImRhdGEiOiJndWVzdEBtYWlsLmNvbSIsImlhdCI6MTYxNTU0NjMyN30._tePp7lYI4ZEs4WxVcETQ7YS3le0wPdVwod9X4gRXOs",
+          "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJkYXRhIjoidGVzdEBtYWlsLmNvbSIsImlhdCI6MTYxNzAyOTMyNn0.tw0u3h9A1UZETKZBZTGKgYUGrj7ef_GSY22YIIVcq6I",
         isBlocked: false,
         UserId: 2,
       },
       {
         token:
-          "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE2MTU1NDk5MjcsImRhdGEiOiJndWVzdEBtYWlsLmNvbSIsImlhdCI6MTYxNTU0NjMyN30._tePp7lYI4ZEs4WxVcETQ7YS3le0wPdVwod9X4gRXOd",
+          "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJkYXRhIjoiYWRtaW5AbWFpbC5jb20iLCJpYXQiOjE2MTcwMjkzNzV9.ch_DcjTpR-aaUOX0fMScBxT1hMMqZxkBexIDGgpfNlM",
         isBlocked: false,
-        UserId: 2,
+        UserId: 1,
+      },
+      {
+        token:
+          "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJkYXRhIjoiYWRtaW5AbWFpbC5jb20iLCJpYXQiOjE2MTcxNzM2NTF9.m7MP5-GDjy_Kvw99Nv613BNC86QSpdulUakaz_8senc",
+        isBlocked: false,
+        UserId: 1,
       },
     ]);
   },

@@ -40,13 +40,12 @@ describe("test characterService (unit test)", () => {
   });
 
   test("update", async () => {
-    const data = { stat: 5 };
+    const data = { stat: 1 };
     const userID = 123;
 
     const character = await characterService.update(data, userID);
     expect(character).not.toBeUndefined();
     expect(character.id).not.toBeUndefined();
-    expect(character.UserId).not.toBeUndefined();
   });
 
   test("setSkills", async () => {
@@ -56,7 +55,6 @@ describe("test characterService (unit test)", () => {
     const character = await characterService.setSkills(skillIDs, userID);
     expect(character).not.toBeUndefined();
     expect(character.id).not.toBeUndefined();
-    expect(character.UserId).not.toBeUndefined();
   });
 
   test("setItems", async () => {
@@ -66,7 +64,6 @@ describe("test characterService (unit test)", () => {
     const character = await characterService.setItems(itemIDs, userID);
     expect(character).not.toBeUndefined();
     expect(character.id).not.toBeUndefined();
-    expect(character.UserId).not.toBeUndefined();
   });
 
   test("getStats", async () => {

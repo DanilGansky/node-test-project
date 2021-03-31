@@ -1,10 +1,14 @@
 module.exports = {
-  findAll: () => [{}],
+  findAll: () =>
+    Promise.resolve([
+      { id: 1, name: "skill", Parameters: [{}] },
+      { id: 2, name: "skill", Parameters: [{}] },
+      { id: 3, name: "skill", Parameters: [{}] },
+    ]),
   findByID: (id) => {
     return {
       id: id,
-      name: "item",
-      icon: "icon",
+      name: "skill",
       Parameters: [{}],
     };
   },
