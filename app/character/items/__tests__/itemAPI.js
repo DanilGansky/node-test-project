@@ -53,6 +53,17 @@ describe("itemAPI tests (integration tests)", () => {
     expect(resp.body.item.name).toEqual("updated item");
   });
 
+  test("upload icon", async () => {
+    const resp = await request(app)
+      .put("/admin/items/1/upload-icon")
+      .type("multipart/form-data")
+      .set("Authorization", accessToken)
+      .attach("f", "./media/test.jpg");
+
+    expect(resp.statusCode).toEqual(200);
+    expect(resp.body.item).not.toBeUndefined();
+  });
+
   test("delete item", async () => {
     const resp = await request(app)
       .delete("/admin/items/1")

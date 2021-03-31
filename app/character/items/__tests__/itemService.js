@@ -1,5 +1,5 @@
 const itemRepository = require("../__mocks__/itemRepository");
-const { uploader } = require("../../__mocks__/uploadService");
+const uploader = require("../../__mocks__/uploadService");
 const itemService = require("../itemService")(itemRepository, uploader);
 
 describe("test itemService", () => {
@@ -40,6 +40,11 @@ describe("test itemService", () => {
     expect(item).not.toBeUndefined();
     expect(item.id).not.toBeUndefined();
     expect(item.name).not.toBeUndefined();
+  });
+
+  test("update icon", async () => {
+    const item = await itemService.uploadIcon({}, "file", 123);
+    expect(item).not.toBeUndefined();
   });
 
   test("remove", async () => {
